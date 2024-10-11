@@ -12,8 +12,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.hr_app.ui.theme.MyHRAppTheme
-import com.example.vacancies.presentation.navigation.VacanciesRouter
+import com.example.hr_app.presentation.navigation.MainAppRouter
+import com.example.hr_app.presentation.theme.MyHRAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
             MyHRAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
-                        VacanciesRouter()
+                        MainAppRouter()
                     }
                 }
             }

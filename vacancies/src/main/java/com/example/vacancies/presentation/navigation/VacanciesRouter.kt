@@ -11,6 +11,7 @@ import kotlinx.serialization.Serializable
 @Composable
 fun VacanciesRouter() {
     val navController = rememberNavController()
+
     NavHost(
         navController = navController,
         startDestination = List

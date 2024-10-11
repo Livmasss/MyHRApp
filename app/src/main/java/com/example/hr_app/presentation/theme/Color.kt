@@ -1,4 +1,4 @@
-package com.example.hr_app.ui.theme
+package com.example.hr_app.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
