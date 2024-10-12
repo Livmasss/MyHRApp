@@ -5,4 +5,6 @@
     <string name="label_responds">Отклики</string>
     <string name="label_messages">Сообщения</string>
     <string name="label_profile">Профиль</string>
+    <string name="label_filter">Filter</string>
+    <string name="text_search_bar">Должность, ключевые слова</string>
 </resources>

@@ -8,6 +8,7 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
 import com.example.hr_app.presentation.theme.AppColors
 import com.example.hr_app.presentation.theme.Typography
@@ -51,6 +52,12 @@ fun MyHRAppTheme(
 
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
+    }
+
+    CompositionLocalProvider(
+        LocalSpacing provides Spacing()
+    ) {
+
     }
 
     MaterialTheme(
