@@ -1,6 +1,6 @@
 package com.example.coreui.composables
 
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -31,10 +31,10 @@ fun MyTextField(
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = AppColors.Grey2,
-            unfocusedContainerColor = AppColors.Grey2,
-            disabledContainerColor = AppColors.Grey2,
-            errorContainerColor = AppColors.Grey2,
+            focusedContainerColor = MaterialTheme.colorScheme.surface,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+            disabledContainerColor = MaterialTheme.colorScheme.surface,
+            errorContainerColor = MaterialTheme.colorScheme.surface,
 
             focusedTextColor = AppColors.Grey4,
             unfocusedTextColor = AppColors.Grey4,

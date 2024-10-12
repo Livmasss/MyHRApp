@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -17,7 +16,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,19 +26,30 @@ import com.example.coreui.R
 import com.example.coreui.composables.MyTextField
 import com.example.coreui.theme.MyHRAppTheme
 import com.example.coreui.theme.spacings
-import com.example.hr_app.presentation.theme.AppColors
+import com.example.vacancies.presentation.components.RecommendationsRow
+import com.example.vacancies.presentation.models.RecommendationModel
 
 @Composable
 internal fun VacanciesListScreen(
     navigateToVacancyDetails: () -> Unit
 ) {
     VacanciesListRawScreen(
+        recommendations = listOf(
+            RecommendationModel(
+                id = "",
+                iconId = com.example.vacancies.R.drawable.ic_level_up_resume,
+                title = "title",
+                buttonText = "text",
+                link = ""
+            )
+        ),
         navigateToVacancyDetails = navigateToVacancyDetails
     )
 }
 
 @Composable
 internal fun VacanciesListRawScreen(
+    recommendations: List<RecommendationModel>,
     navigateToVacancyDetails: () -> Unit
 ) {
     Scaffold { innerPadding ->
@@ -52,6 +61,9 @@ internal fun VacanciesListRawScreen(
             SearchOptionsRow(
                 searchQuery = ""
             ) {}
+            Spacer(Modifier.height(MaterialTheme.spacings.large))
+
+            RecommendationsRow(recommendations = recommendations)
         }
     }
 }
@@ -88,7 +100,7 @@ private fun SearchOptionsRow(
             modifier = Modifier
                 .fillMaxHeight()
                 .aspectRatio(1f)
-                .background(AppColors.Grey2, shapes.medium),
+                .background(MaterialTheme.colorScheme.surface, shapes.medium),
             onClick = {}
         ) {
             Icon(
@@ -104,6 +116,29 @@ private fun SearchOptionsRow(
 @Composable
 private fun VacanciesListRawScreenPreview() {
     MyHRAppTheme {
-        VacanciesListRawScreen() {}
+        VacanciesListRawScreen(
+            recommendations = listOf(
+                RecommendationModel(
+                    id = "",
+                    iconId = com.example.vacancies.R.drawable.ic_level_up_resume,
+                    title = "title 1",
+                    buttonText = "text",
+                    link = ""
+                ),
+                RecommendationModel(
+                    id = "",
+                    iconId = com.example.vacancies.R.drawable.ic_level_up_resume,
+                    title = "title 2",
+                    link = ""
+                ),
+                RecommendationModel(
+                    id = "",
+                    iconId = com.example.vacancies.R.drawable.ic_level_up_resume,
+                    title = "Really big title number 3",
+                    buttonText = "text",
+                    link = ""
+                )
+            )
+        ) {}
     }
 }
