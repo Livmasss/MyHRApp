@@ -23,3 +23,4 @@ rootProject.name = "MyHRApp"
 include(":app")
 include(":vacancies")
 include(":favorite")
+include(":coreui")

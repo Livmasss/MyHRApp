@@ -51,13 +51,12 @@ dependencies {
     implementation(libs.androidx.material3)
 
     implementation(libs.room.ktx)
+
     implementation(libs.serialization)
 
     // Jetpack Navigation
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
-
-    // Если используете Jetpack Compose
     implementation(libs.navigation.compose)
 
     testImplementation(libs.junit)
