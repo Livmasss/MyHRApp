@@ -21,10 +21,12 @@ private val LightColorScheme = AppColors.run {
         tertiary = Blue,
 
         surface = Grey1,
-        onSurface = White
+        onSurface = White,
+
+        background = Black,
+
 
         /* Other default colors to override
-        background = Color(0xFFFFFBFE),
         onPrimary = Color.White,
         onSecondary = Color.White,
         onTertiary = Color.White,

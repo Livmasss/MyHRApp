@@ -51,7 +51,7 @@ dependencies {
     implementation(libs.androidx.material3)
 
     implementation(libs.room.ktx)
-    implementation(libs.serialization)
+    implementation(libs.serialization.json)
 
     // Jetpack Navigation
     implementation(libs.navigation.fragment)

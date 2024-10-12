@@ -72,8 +72,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+//    accompanist
+    implementation(libs.accompanist.systemuicontroller)
 //    Serialization
-    implementation(libs.serialization)
+    implementation(libs.serialization.json)
 
     // Jetpack Navigation
     implementation(libs.navigation.fragment)
