@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.vacancies.presentation.screens.main.VacanciesListScreen
+import com.example.vacancies.presentation.screens.main.MainScreen
 import com.example.vacancies.presentation.screens.details.VacancyDetailsScreen
 import kotlinx.serialization.Serializable
 
@@ -17,7 +17,7 @@ fun VacanciesRouter() {
         startDestination = List
     ) {
         composable<List> {
-            VacanciesListScreen {
+            MainScreen {
                 navController.navigate(route = Details)
             }
         }

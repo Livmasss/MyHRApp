@@ -1,4 +1,4 @@
-package com.example.coreui.composables
+package com.example.coreui.components
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.shapes

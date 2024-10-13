@@ -9,40 +9,33 @@ import androidx.compose.runtime.CompositionLocalProvider
 import com.example.hr_app.presentation.theme.AppColors
 import com.example.hr_app.presentation.theme.Typography
 
-private val DarkColorScheme = darkColorScheme()
+private val LightColorScheme = darkColorScheme()
 
-private val LightColorScheme = AppColors.run {
+private val DarkColorScheme = AppColors.run {
     lightColorScheme(
         primary = Green,
         secondary = DarkGreen,
         tertiary = Blue,
 
         background = Black,
+        onBackground = White,
+
         surfaceVariant = Grey1,
         surface = Grey2,
         onSurface = White,
         onSurfaceVariant = White,
 
-        outlineVariant = Grey1,
-
-        /* Other default colors to override
-        onPrimary = Color.White,
-        onSecondary = Color.White,
-        onTertiary = Color.White,
-        onBackground = Color(0xFF1C1B1F),
-        onSurface = Color(0xFF1C1B1F),
-        */
+        outlineVariant = Grey1
     )
 }
 
 @Composable
 fun MyHRAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = LightColorScheme
+    val colorScheme = DarkColorScheme
 //    when {
 //        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
 //            val context = LocalContext.current
@@ -56,12 +49,10 @@ fun MyHRAppTheme(
     CompositionLocalProvider(
         LocalSpacing provides Spacing()
     ) {
-
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
     }
-
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
 }

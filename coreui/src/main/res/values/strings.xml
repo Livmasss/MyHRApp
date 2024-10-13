@@ -7,4 +7,6 @@
     <string name="label_profile">Profile</string>
     <string name="label_filter">Filter</string>
     <string name="text_search_bar">Должность, ключевые слова</string>
+    <string name="label_respond">Откликнуться</string>
+    <string name="text_publish_date">Опубликовано %s</string>
 </resources>
