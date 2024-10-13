@@ -2,8 +2,8 @@
 <resources>
     <plurals name="interested_people">
         <item quantity="one">Сейчас просматривает %d человек</item>
-        <item quantity="other">Сейчас просматривают %d человек</item>
         <item quantity="many">Сейчас просматривают %d человек</item>
-        <item quantity="few">Сейчас просматривают %d человек</item>
+        <item quantity="few">Сейчас просматривают %d человека</item>
+        <item quantity="other">Сейчас просматривают %d человек</item>
     </plurals>
 </resources>

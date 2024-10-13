@@ -1,4 +1,4 @@
-package com.example.vacancies.presentation.components
+package com.example.vacancies.presentation.screens.main
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.coreui.theme.MyHRAppTheme
@@ -60,17 +61,21 @@ internal fun RecommendationItem(
         Column(
             Modifier.padding(MaterialTheme.spacings.medium)
         ) {
-            Icon(
-                painter = painterResource(model.iconId),
-                contentDescription = null,
-                tint = Color.Unspecified
-            )
-            Spacer(modifier = Modifier.height(MaterialTheme.spacings.medium))
+            model.iconId?.let {
+                Icon(
+                    painter = painterResource(model.iconId),
+                    contentDescription = null,
+                    tint = Color.Unspecified
+                )
+                Spacer(modifier = Modifier.height(MaterialTheme.spacings.medium))
+            }
 
             Text(
                 modifier = Modifier.weight(1f),
                 text = model.title,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                maxLines = if (model.buttonText == null) 3 else 2,
+                overflow = TextOverflow.Clip
             )
 
             model.buttonText?.let {
@@ -92,15 +97,21 @@ private fun RecommendationItemPreview() {
             recommendations = listOf(
                 RecommendationModel(
                     id = "",
-                    title = "Поднять в поиске",
+                    title = "Поднять резюме в поиске",
                     buttonText = "поднять",
                     iconId = R.drawable.ic_level_up_resume,
                     link = "",
                 ),
                 RecommendationModel(
                     id = "",
-                    title = "Называние",
+                    title = "Название",
                     iconId = R.drawable.ic_level_up_resume,
+                    link = "",
+                ),
+                RecommendationModel(
+                    id = "",
+                    title = "Рекомендация с очень длинным названием",
+                    iconId = null,
                     link = "",
                 ),
             )

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -39,8 +38,7 @@ fun VacancyItem(
     onRespondClicked: () -> Unit
 ) {
     Card(
-        modifier = Modifier
-            .then(modifier)
+        modifier = Modifier.then(modifier)
     ) {
         Column(
             modifier = Modifier.padding(MaterialTheme.spacings.medium)
@@ -74,26 +72,28 @@ private fun VacancyMainInfo(
     model: VacancyModel
 ) {
     Column(modifier) {
-        Text(
-            pluralStringResource(
-                R.plurals.interested_people,
-                model.interestedPeopleCount,
-                model.interestedPeopleCount
-            ),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.primary
-        )
+        model.interestedPeopleCount?.let {
+            Text(
+                pluralStringResource(
+                    R.plurals.interested_people,
+                    model.interestedPeopleCount,
+                    model.interestedPeopleCount
+                ),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Spacer(Modifier.height(MaterialTheme.spacings.small))
+        }
 
-        Spacer(Modifier.height(MaterialTheme.spacings.small))
         Text(text = model.title)
-
         Spacer(Modifier.height(MaterialTheme.spacings.small))
+
         Text(
             text = model.city,
             style = MaterialTheme.typography.bodySmall
         )
-
         Spacer(Modifier.height(MaterialTheme.spacings.extraSmall))
+
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -109,8 +109,8 @@ private fun VacancyMainInfo(
                     tint = Color.Unspecified
                 )
         }
-
         Spacer(Modifier.height(MaterialTheme.spacings.small))
+
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -125,8 +125,8 @@ private fun VacancyMainInfo(
                 style = MaterialTheme.typography.bodySmall
             )
         }
-
         Spacer(modifier = Modifier.height(MaterialTheme.spacings.small))
+
         val dateString = MyDateTimeFormatter.formatPublishDate(model.publishData.time)
         Text(
             text = stringResource(R.string.text_publish_date, dateString),
@@ -144,6 +144,28 @@ private fun VacancyItemPreview() {
             model = VacancyModel(
                 id = UUID.randomUUID(),
                 interestedPeopleCount = 12,
+                title = "Vacancy",
+                city = "City",
+                isLiked = true,
+                isVerified = true,
+                company = "Company",
+                experienceText = "Experiency from 1 to 3 years",
+                publishData = Calendar.getInstance()
+            ),
+            onLikedChange = {},
+            onRespondClicked = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun VacancyItemPreviewNoInterested() {
+    MyHRAppTheme {
+        VacancyItem(
+            model = VacancyModel(
+                id = UUID.randomUUID(),
+                interestedPeopleCount = null,
                 title = "Vacancy",
                 city = "City",
                 isLiked = true,

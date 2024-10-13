@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <plurals name="interested_people">
-        <item quantity="one">Сейчас просматривает %d человек</item>
-        <item quantity="other">Сейчас просматривают %d человек</item>
+        <item quantity="one">Now 1 person is looking</item>
+        <item quantity="other">Now %d people is looking </item>
+        <item quantity="many">Now %d people is looking </item>
     </plurals>
 </resources>

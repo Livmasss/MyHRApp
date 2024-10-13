@@ -5,7 +5,7 @@ import java.util.UUID
 
 data class VacancyModel(
     val id: UUID,
-    val interestedPeopleCount: Int,
+    val interestedPeopleCount: Int?,
     val title: String,
     val city: String,
     val isLiked: Boolean,

@@ -12,12 +12,14 @@ sealed class BottomNavItem {
     abstract val iconResourceId: Int
     @get:StringRes
     abstract val label: Int
+    protected abstract val navbarPosition: Int
 
     companion object {
         fun getObjectInstances(): List<BottomNavItem> {
-            return BottomNavItem::class.sealedSubclasses.mapNotNull {
-                it.objectInstance as BottomNavItem
-            }
+            val subclasses = BottomNavItem::class.sealedSubclasses
+            return subclasses.mapNotNull {
+                it.objectInstance
+            }.sortedBy { it.navbarPosition }
         }
     }
 
@@ -25,29 +27,34 @@ sealed class BottomNavItem {
         override val route: String = Search::class.qualifiedName.toString()
         override val iconResourceId: Int = R.drawable.ic_search_outline
         override val label: Int = R.string.label_search
+        override val navbarPosition: Int = 0
     }
 
     @Serializable data object Favorite : BottomNavItem() {
         override val route: String = Favorite::class.qualifiedName.toString()
         override val iconResourceId: Int = R.drawable.ic_like_outline
         override val label: Int = R.string.label_favorite
+        override val navbarPosition: Int = 1
     }
 
     @Serializable data object Responds : BottomNavItem() {
         override val route: String = Responds::class.qualifiedName.toString()
         override val iconResourceId: Int = R.drawable.ic_responds_outline
         override val label: Int = R.string.label_responds
+        override val navbarPosition: Int = 2
     }
 
     @Serializable data object Messages : BottomNavItem() {
         override val route: String = Messages::class.qualifiedName.toString()
         override val iconResourceId: Int = R.drawable.ic_messages_outline
         override val label: Int = R.string.label_messages
+        override val navbarPosition: Int = 3
     }
 
     @Serializable data object Profile : BottomNavItem() {
         override val route: String = Profile::class.qualifiedName.toString()
         override val iconResourceId: Int = R.drawable.ic_profile_outline
         override val label: Int = R.string.label_profile
+        override val navbarPosition: Int = 4
     }
 }
