@@ -5,4 +5,9 @@
         <item quantity="other">Now %d people is looking </item>
         <item quantity="many">Now %d people is looking </item>
     </plurals>
+
+    <plurals name="text_vacancies_count">
+        <item quantity="one">1 vacancy</item>
+        <item quantity="other">%d vacancies</item>
+    </plurals>
 </resources>

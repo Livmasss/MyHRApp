@@ -21,7 +21,9 @@ import com.example.vacancies.presentation.utils.preview.vacanciesPreviewList
 @Composable
 internal fun VacanciesPartialList(
     vacancies: List<VacancyModel>,
-    postVacanciesItem: (@Composable () -> Unit)? = null
+    postVacanciesItem: (@Composable () -> Unit)? = null,
+    onLikeClicked: (index: Int, value: Boolean) -> Unit,
+    onRespondClicked: (index: Int) -> Unit,
 ) {
     val vacanciesWithCheckedSize = try {
         vacancies.slice(0 until 3)
@@ -40,18 +42,24 @@ internal fun VacanciesPartialList(
         VacanciesList(
             vacancies = vacanciesWithCheckedSize,
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacings.medium),
-            postVacanciesItem = postVacanciesItem
+            postVacanciesItem = postVacanciesItem,
+            onLikeClicked = onLikeClicked,
+            onRespondClicked = onRespondClicked
         )
     }
 }
 
 @Composable
 internal fun VacanciesWholeList(
-    vacancies: List<VacancyModel>
+    vacancies: List<VacancyModel>,
+    onLikeClicked: (index: Int, value: Boolean) -> Unit,
+    onRespondClicked: (index: Int) -> Unit,
 ) {
     VacanciesList(
         vacancies = vacancies,
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacings.small)
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacings.small),
+        onLikeClicked = onLikeClicked,
+        onRespondClicked = onRespondClicked
     )
 }
 
@@ -59,7 +67,9 @@ internal fun VacanciesWholeList(
 private fun VacanciesList(
     vacancies: List<VacancyModel>,
     verticalArrangement: Arrangement.Vertical,
-    postVacanciesItem: (@Composable () -> Unit)? = null
+    postVacanciesItem: (@Composable () -> Unit)? = null,
+    onLikeClicked: (index: Int, value: Boolean) -> Unit,
+    onRespondClicked: (index: Int) -> Unit,
 ) {
     LazyColumn(
         verticalArrangement = verticalArrangement
@@ -74,8 +84,12 @@ private fun VacanciesList(
 
             VacancyItem(
                 model = vacancy,
-                onLikedChange = {},
-                onRespondClicked = {}
+                onLikedChange = {
+                    onLikeClicked(index, !vacancy.isLiked)
+                },
+                onRespondClicked = {
+                    onRespondClicked(index)
+                }
             )
         }
 
@@ -93,7 +107,9 @@ private fun VacanciesList(
 private fun VacanciesListPreview() {
     MyHRAppTheme {
         VacanciesPartialList(
-            vacancies = vacanciesPreviewList
+            vacancies = vacanciesPreviewList,
+            onLikeClicked = { _, _ -> },
+            onRespondClicked = {}
         )
     }
 }

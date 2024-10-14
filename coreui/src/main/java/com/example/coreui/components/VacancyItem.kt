@@ -35,7 +35,7 @@ fun VacancyItem(
     modifier: Modifier = Modifier,
     model: VacancyModel,
     onLikedChange: (Boolean) -> Unit,
-    onRespondClicked: () -> Unit
+    onRespondClicked: (VacancyModel) -> Unit
 ) {
     Card(
         modifier = Modifier.then(modifier)
@@ -58,7 +58,7 @@ fun VacancyItem(
 
             Button(
                 modifier = Modifier.fillMaxWidth(),
-                onClick = onRespondClicked
+                onClick = { onRespondClicked(model) }
             ) {
                 Text(text = stringResource(id = R.string.label_respond))
             }

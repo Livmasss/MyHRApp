@@ -4,8 +4,4 @@
         <item quantity="one">Also 1 vacancy</item>
         <item quantity="other">Also %d vacancies</item>
     </plurals>
-    <plurals name="text_vacancies_count">
-        <item quantity="one">1 vacancy</item>
-        <item quantity="other">%d vacancies</item>
-    </plurals>
 </resources>

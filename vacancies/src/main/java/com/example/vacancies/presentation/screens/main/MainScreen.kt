@@ -32,7 +32,9 @@ internal fun MainScreen(
         vacancies = listOf(),
         otherVacanciesNumber = 0,
         navigateToVacancyDetails = navigateToVacancyDetails,
-        navigateToOtherVacancies = navigateToOtherVacancies
+        navigateToOtherVacancies = navigateToOtherVacancies,
+        setVacancyLikedState = { _, _ -> },
+        respondVacancy = {}
     )
 }
 
@@ -43,6 +45,8 @@ internal fun MainRawScreen(
     otherVacanciesNumber: Int,
     navigateToVacancyDetails: () -> Unit,
     navigateToOtherVacancies: () -> Unit,
+    setVacancyLikedState: (index: Int, value: Boolean) -> Unit,
+    respondVacancy: (index: Int) -> Unit,
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -61,13 +65,16 @@ internal fun MainRawScreen(
 
             Spacer(modifier = Modifier.height(MaterialTheme.spacings.large))
             VacanciesPartialList(
-                vacancies = vacancies
-            ) {
-                OtherVacanciesButton(
-                    otherVacanciesNumber = otherVacanciesNumber,
-                    onClick = navigateToOtherVacancies
-                )
-            }
+                vacancies = vacancies,
+                postVacanciesItem = {
+                    OtherVacanciesButton(
+                        otherVacanciesNumber = otherVacanciesNumber,
+                        onClick = navigateToOtherVacancies
+                    )
+                },
+                onLikeClicked = setVacancyLikedState,
+                onRespondClicked = respondVacancy
+            )
         }
     }
 }
@@ -118,7 +125,10 @@ private fun MainRawScreenPreview() {
             ),
             vacancies = vacanciesPreviewList,
             otherVacanciesNumber = 143,
-            navigateToVacancyDetails = {}
-        ) {}
+            navigateToVacancyDetails = {},
+            navigateToOtherVacancies = {},
+            setVacancyLikedState = { _, _ ->},
+            respondVacancy = {},
+        )
     }
 }

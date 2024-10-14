@@ -19,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.coreui.models.VacancyModel
 import com.example.coreui.theme.MyHRAppTheme
 import com.example.coreui.theme.spacings
-import com.example.vacancies.R
 import com.example.vacancies.presentation.components.VacanciesWholeList
 import com.example.vacancies.presentation.screens.main.SearchOptionsRow
 import com.example.vacancies.presentation.utils.preview.vacanciesPreviewList
@@ -32,7 +31,9 @@ fun OtherVacanciesScreen(
         vacancies = listOf(),
         searchQuery = "",
         onSearchQueryChange = {},
-        onBackButtonClicked = onBackButtonClicked
+        onBackButtonClicked = onBackButtonClicked,
+        changeLikeState = { _, _ -> },
+        respondVacandy = {}
     )
 }
 
@@ -41,7 +42,9 @@ private fun OtherVacanciesRawScreen(
     vacancies: List<VacancyModel>,
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
-    onBackButtonClicked: () -> Unit
+    onBackButtonClicked: () -> Unit,
+    changeLikeState: (index: Int, value: Boolean) -> Unit,
+    respondVacandy: (index: Int) -> Unit,
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -68,7 +71,11 @@ private fun OtherVacanciesRawScreen(
             SortingRow(vacancies.size)
             Spacer(modifier = Modifier.height(MaterialTheme.spacings.large))
 
-            VacanciesWholeList(vacancies = vacancies)
+            VacanciesWholeList(
+                vacancies = vacancies,
+                onLikeClicked = changeLikeState,
+                onRespondClicked = respondVacandy
+            )
         }
     }
 }
@@ -80,7 +87,7 @@ private fun SortingRow(
     Row {
         Text(
             text = pluralStringResource(
-                R.plurals.text_vacancies_count,
+                com.example.coreui.R.plurals.text_vacancies_count,
                 vacanciesCount,
                 vacanciesCount
             ),
@@ -99,7 +106,10 @@ private fun OtherVacanciesRawScreenPreview() {
         OtherVacanciesRawScreen(
             vacancies = vacanciesPreviewList,
             searchQuery = "",
-            onSearchQueryChange = {}
-        ) {}
+            onSearchQueryChange = {},
+            onBackButtonClicked = {},
+            changeLikeState = { _, _ -> },
+            respondVacandy = {}
+        )
     }
 }
