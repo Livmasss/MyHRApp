@@ -18,10 +18,12 @@ serialization = "1.6.0"
 
 navigation = "2.8.2"
 room = "2.6.1"
-coroutines = "1.8.1"  # Версия Coroutines
-koin = "3.5.6"  # Версия Koin
-adapterDelegates = "4.3.1"  # Версия Adapter Delegates
-retrofit = "2.11.0"  # Версия Retrofit
+coroutines = "1.8.1"
+koin = "3.5.6"
+adapterDelegates = "4.3.1"
+okhttp = "4.12.0"
+retrofit = "2.11.0"
+junitJupiter = "5.8.1"
 
 
 [libraries]
@@ -53,11 +55,13 @@ navigation-compose = { module = "androidx.navigation:navigation-compose", versio
 
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
+coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines"}
 
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-androidx-scope = { group = "io.insert-koin", name = "koin-androidx-scope", version.ref = "koin" }
 koin-androidx-viewmodel = { group = "io.insert-koin", name = "koin-androidx-viewmodel", version.ref = "koin" }
+koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 
 adapter-delegates = { group = "com.hannesdorfmann", name = "adapterdelegates4", version.ref = "adapterDelegates" }
 
@@ -65,11 +69,14 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 
+okhttp-interceptor = {group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp"}
+
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 
 lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 lifecycle-livedata = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle" }
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

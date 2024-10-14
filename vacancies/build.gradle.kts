@@ -42,6 +42,7 @@ android {
 
 dependencies {
     implementation(project(":coreui"))
+    implementation(project(":core"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime)
@@ -52,16 +53,29 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+//    di
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
+
+//    Room
     implementation(libs.room.ktx)
+
+//    Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
 
     implementation(libs.serialization.json)
 
-    // Jetpack Navigation
+//   Jetpack Navigation
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.navigation.compose)
 
+    testImplementation(libs.coroutines.test)
     testImplementation(libs.junit)
+    testImplementation(libs.junit.jupiter)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
