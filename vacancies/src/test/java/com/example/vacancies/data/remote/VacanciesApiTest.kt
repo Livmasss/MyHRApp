@@ -8,8 +8,10 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 class VacanciesApiTest {
-    private val api = RetrofitConfig.createApi(VacanciesApi::class.java)
-    private var responseBody: MainScreenResponseModel? = null
+    companion object {
+        private val api = RetrofitConfig.createApi(VacanciesApi::class.java)
+        private var responseBody: MainScreenResponseModel? = null
+    }
 
     @Test
     fun `Get main screen test null body`() = runTest {
@@ -21,6 +23,13 @@ class VacanciesApiTest {
         val checkedBody = takeBody()
 
         assertNotNull(checkedBody.offers)
+    }
+
+    @Test
+    fun `Get main screen null vacancies`() = runTest {
+        val checkedBody = takeBody()
+
+        assertNotNull(checkedBody.vacancies)
     }
 
     private suspend fun takeBody(): MainScreenResponseModel {
