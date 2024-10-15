@@ -12,10 +12,10 @@ internal data class VacancyResponseModel (
     val company: String,
     val experience: ExperienceResponseModel,
     @SerializedName("publishedDate")
-    val publishData: Date,
+    val publishDate: Date,
     val isFavorite: Boolean
 
-//    TODO("Добавить остальные поля")
+//    TODO("Add remaining fields")
 ) {
     data class AddressResponseModel (
         @SerializedName("town")
