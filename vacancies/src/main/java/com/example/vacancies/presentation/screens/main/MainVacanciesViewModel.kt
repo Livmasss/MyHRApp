@@ -20,8 +20,9 @@ internal class MainVacanciesViewModel(
         scope.fetchCatching(
             onConnectException = {}
         ) {
-            val result = getVacanciesScreenUseCase.execute()
-            _mainVacanciesScreen.value = result?.toPresentation()
+            getVacanciesScreenUseCase.execute().collect {
+                _mainVacanciesScreen.value = it.toPresentation()
+            }
         }
     }
 }

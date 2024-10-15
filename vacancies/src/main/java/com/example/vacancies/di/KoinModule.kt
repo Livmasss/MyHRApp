@@ -1,6 +1,7 @@
 package com.example.vacancies.di
 
 import com.example.core.data.remote.RetrofitConfig
+import com.example.vacancies.data.local.VacanciesLocalDataSource
 import com.example.vacancies.data.remote.VacanciesApi
 import com.example.vacancies.data.remote.sources.VacanciesRemoteDataSource
 import com.example.vacancies.data.repositories.impl.VacanciesRepositoryImpl
@@ -17,9 +18,10 @@ val vacanciesKoinModule = module {
         RetrofitConfig.createApi(VacanciesApi::class.java)
     }
     singleOf(::VacanciesRemoteDataSource)
+    singleOf(::VacanciesLocalDataSource)
 
     single<VacanciesRepository> {
-        VacanciesRepositoryImpl(get())
+        VacanciesRepositoryImpl(get(), get())
     }
     singleOf(::GetVacanciesScreenUseCase)
 

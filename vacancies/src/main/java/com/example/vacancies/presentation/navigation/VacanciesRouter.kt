@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.vacancies.presentation.screens.main.MainScreen
 import com.example.vacancies.presentation.screens.details.VacancyDetailsScreen
+import com.example.vacancies.presentation.screens.main.MainScreen
 import com.example.vacancies.presentation.screens.other_vacancies.OtherVacanciesScreen
 import kotlinx.serialization.Serializable
 
