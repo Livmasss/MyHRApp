@@ -16,7 +16,7 @@ internal class MainVacanciesViewModel(
     private val _mainVacanciesScreen = MutableStateFlow<MainVacanciesScreenModel?>(null)
     val mainVacanciesScreen = _mainVacanciesScreen.asStateFlow()
 
-    fun getVacanciesScreenData(scope: CoroutineScope = viewModelScope) {
+    fun initiateScreenData(scope: CoroutineScope = viewModelScope) {
         scope.fetchCatching(
             onConnectException = {}
         ) {

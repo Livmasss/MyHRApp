@@ -6,11 +6,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.material3.Text
@@ -23,7 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.example.coreui.components.MyCircleProgressIndicator
 import com.example.coreui.models.VacancyModel
 import com.example.coreui.theme.MyHRAppTheme
 import com.example.coreui.theme.spacings
@@ -42,7 +39,7 @@ internal fun MainScreen(
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
-        viewModel.getVacanciesScreenData(scope)
+        viewModel.initiateScreenData(scope)
     }
 
     MainRawScreen(
@@ -68,46 +65,45 @@ internal fun MainRawScreen(
     respondVacancy: (index: Int) -> Unit,
     loading: Boolean,
 ) {
-    Box(modifier = Modifier.fillMaxSize()
-        .padding(MaterialTheme.spacings.medium)
+    if (loading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            MyCircleProgressIndicator()
+        }
+        return
+    }
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
     ) {
-        if (loading) {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
-                    .size(70.dp)
-            )
-            return@Box
+        SearchOptionsRow(
+            searchQuery = ""
+        ) {}
+
+        if (!recommendations.isNullOrEmpty()) {
+            Spacer(modifier = Modifier.height(MaterialTheme.spacings.medium))
+            RecommendationsRow(recommendations = recommendations)
         }
-        else {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-            ) {
-                SearchOptionsRow(
-                    searchQuery = ""
-                ) {}
 
-                if (!recommendations.isNullOrEmpty()) {
-                    Spacer(modifier = Modifier.height(MaterialTheme.spacings.medium))
-                    RecommendationsRow(recommendations = recommendations)
-                }
-
-                Spacer(modifier = Modifier.height(MaterialTheme.spacings.large))
-                VacanciesPartialList(
-                    vacancies = vacancies,
-                    postVacanciesItem = {
-                        OtherVacanciesButton(
-                            otherVacanciesNumber = otherVacanciesNumber,
-                            onClick = navigateToOtherVacancies
-                        )
-                    },
-                    onLikeClicked = setVacancyLikedState,
-                    onRespondClicked = respondVacancy
+        Spacer(modifier = Modifier.height(MaterialTheme.spacings.large))
+        VacanciesPartialList(
+            vacancies = vacancies,
+            postVacanciesItem = {
+                OtherVacanciesButton(
+                    otherVacanciesNumber = otherVacanciesNumber,
+                    onClick = navigateToOtherVacancies
                 )
-            }
-        }
+            },
+            onLikeClicked = setVacancyLikedState,
+            onRespondClicked = respondVacancy
+        )
     }
 }
+
 
 @Composable
 private fun OtherVacanciesButton(

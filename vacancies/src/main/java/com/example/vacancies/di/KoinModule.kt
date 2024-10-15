@@ -7,6 +7,7 @@ import com.example.vacancies.data.repositories.impl.VacanciesRepositoryImpl
 import com.example.vacancies.domain.repositories.VacanciesRepository
 import com.example.vacancies.domain.useCases.GetVacanciesScreenUseCase
 import com.example.vacancies.presentation.screens.main.MainVacanciesViewModel
+import com.example.vacancies.presentation.screens.other_vacancies.OtherVacanciesViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -21,5 +22,7 @@ val vacanciesKoinModule = module {
         VacanciesRepositoryImpl(get())
     }
     singleOf(::GetVacanciesScreenUseCase)
+
     viewModelOf(::MainVacanciesViewModel)
+    viewModelOf(::OtherVacanciesViewModel)
 }

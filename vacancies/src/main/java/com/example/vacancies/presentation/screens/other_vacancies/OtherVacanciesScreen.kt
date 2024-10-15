@@ -1,39 +1,55 @@
 package com.example.vacancies.presentation.screens.other_vacancies
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.coreui.components.MyCircleProgressIndicator
 import com.example.coreui.models.VacancyModel
 import com.example.coreui.theme.MyHRAppTheme
 import com.example.coreui.theme.spacings
 import com.example.vacancies.presentation.components.VacanciesWholeList
 import com.example.vacancies.presentation.screens.main.SearchOptionsRow
 import com.example.vacancies.presentation.utils.preview.vacanciesPreviewList
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun OtherVacanciesScreen(
+internal fun OtherVacanciesScreen(
+    viewModel: OtherVacanciesViewModel = koinViewModel(),
     onBackButtonClicked: () -> Unit
 ) {
+    val screenState = viewModel.screenState.collectAsState().value
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit) {
+        viewModel.initiateScreen(scope)
+    }
+
     OtherVacanciesRawScreen(
-        vacancies = listOf(),
+        vacancies = screenState?.vacancies ?: listOf(),
+        loading = screenState == null,
         searchQuery = "",
         onSearchQueryChange = {},
         onBackButtonClicked = onBackButtonClicked,
         changeLikeState = { _, _ -> },
-        respondVacandy = {}
+        respondVacancy = {}
     )
 }
 
@@ -44,39 +60,47 @@ private fun OtherVacanciesRawScreen(
     onSearchQueryChange: (String) -> Unit,
     onBackButtonClicked: () -> Unit,
     changeLikeState: (index: Int, value: Boolean) -> Unit,
-    respondVacandy: (index: Int) -> Unit,
+    respondVacancy: (index: Int) -> Unit,
+    loading: Boolean,
 ) {
-    Scaffold { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(horizontal = MaterialTheme.spacings.medium)
-                .padding(innerPadding)
+    if (loading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
         ) {
-            SearchOptionsRow(
-                searchQuery = searchQuery,
-                onSearchQueryChanged = onSearchQueryChange,
-                leadingIcon = {
-                    Icon(
-                        modifier = Modifier.clickable {
-                            onBackButtonClicked()
-                        },
-                        painter = painterResource(com.example.coreui.R.drawable.ic_back),
-                        contentDescription = stringResource(com.example.coreui.R.string.label_back),
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            )
-
-            Spacer(modifier = Modifier.height(MaterialTheme.spacings.medium))
-            SortingRow(vacancies.size)
-            Spacer(modifier = Modifier.height(MaterialTheme.spacings.large))
-
-            VacanciesWholeList(
-                vacancies = vacancies,
-                onLikeClicked = changeLikeState,
-                onRespondClicked = respondVacandy
-            )
+            MyCircleProgressIndicator()
         }
+        return
+    }
+
+    Column(
+        modifier = Modifier
+            .padding(horizontal = MaterialTheme.spacings.medium)
+    ) {
+        SearchOptionsRow(
+            searchQuery = searchQuery,
+            onSearchQueryChanged = onSearchQueryChange,
+            leadingIcon = {
+                Icon(
+                    modifier = Modifier.clickable {
+                        onBackButtonClicked()
+                    },
+                    painter = painterResource(com.example.coreui.R.drawable.ic_back),
+                    contentDescription = stringResource(com.example.coreui.R.string.label_back),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        )
+
+        Spacer(modifier = Modifier.height(MaterialTheme.spacings.medium))
+        SortingRow(vacancies.size)
+        Spacer(modifier = Modifier.height(MaterialTheme.spacings.large))
+
+        VacanciesWholeList(
+            vacancies = vacancies,
+            onLikeClicked = changeLikeState,
+            onRespondClicked = respondVacancy
+        )
     }
 }
 
@@ -109,7 +133,8 @@ private fun OtherVacanciesRawScreenPreview() {
             onSearchQueryChange = {},
             onBackButtonClicked = {},
             changeLikeState = { _, _ -> },
-            respondVacandy = {}
+            respondVacancy = {},
+            loading = false
         )
     }
 }
