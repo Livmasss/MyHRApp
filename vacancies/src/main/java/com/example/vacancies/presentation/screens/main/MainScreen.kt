@@ -1,36 +1,55 @@
 package com.example.vacancies.presentation.screens.main
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.shapes
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.coreui.models.VacancyModel
 import com.example.coreui.theme.MyHRAppTheme
 import com.example.coreui.theme.spacings
 import com.example.vacancies.presentation.components.VacanciesPartialList
 import com.example.vacancies.presentation.models.RecommendationModel
 import com.example.vacancies.presentation.utils.preview.vacanciesPreviewList
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 internal fun MainScreen(
+    viewModel: MainVacanciesViewModel = koinViewModel(),
     navigateToVacancyDetails: () -> Unit,
     navigateToOtherVacancies: () -> Unit,
 ) {
+    val screenState by viewModel.mainVacanciesScreen.collectAsState()
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit) {
+        viewModel.getVacanciesScreenData(scope)
+    }
+
     MainRawScreen(
-        recommendations = listOf(),
-        vacancies = listOf(),
-        otherVacanciesNumber = 0,
+        recommendations = screenState?.recommendations,
+        vacancies = screenState?.vacancies ?: listOf(),
+        otherVacanciesNumber = screenState?.vacancies?.size ?: 0,
+        loading = screenState == null,
         navigateToVacancyDetails = navigateToVacancyDetails,
         navigateToOtherVacancies = navigateToOtherVacancies,
         setVacancyLikedState = { _, _ -> },
@@ -40,41 +59,52 @@ internal fun MainScreen(
 
 @Composable
 internal fun MainRawScreen(
-    recommendations: List<RecommendationModel>,
+    recommendations: List<RecommendationModel>?,
     vacancies: List<VacancyModel>,
     otherVacanciesNumber: Int,
     navigateToVacancyDetails: () -> Unit,
     navigateToOtherVacancies: () -> Unit,
     setVacancyLikedState: (index: Int, value: Boolean) -> Unit,
     respondVacancy: (index: Int) -> Unit,
+    loading: Boolean,
 ) {
-    Scaffold { innerPadding ->
-        Column(
-            modifier = Modifier
-                .padding(horizontal = MaterialTheme.spacings.medium)
-                .padding(innerPadding)
-        ) {
-            SearchOptionsRow(
-                searchQuery = ""
-            ) {}
-
-            if (recommendations.isNotEmpty()) {
-                Spacer(modifier = Modifier.height(MaterialTheme.spacings.medium))
-                RecommendationsRow(recommendations = recommendations)
-            }
-
-            Spacer(modifier = Modifier.height(MaterialTheme.spacings.large))
-            VacanciesPartialList(
-                vacancies = vacancies,
-                postVacanciesItem = {
-                    OtherVacanciesButton(
-                        otherVacanciesNumber = otherVacanciesNumber,
-                        onClick = navigateToOtherVacancies
-                    )
-                },
-                onLikeClicked = setVacancyLikedState,
-                onRespondClicked = respondVacancy
+    Box(modifier = Modifier.fillMaxSize()
+        .padding(MaterialTheme.spacings.medium)
+    ) {
+        if (loading) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+                    .size(70.dp)
             )
+            return@Box
+        }
+        else {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+            ) {
+                SearchOptionsRow(
+                    searchQuery = ""
+                ) {}
+
+                if (!recommendations.isNullOrEmpty()) {
+                    Spacer(modifier = Modifier.height(MaterialTheme.spacings.medium))
+                    RecommendationsRow(recommendations = recommendations)
+                }
+
+                Spacer(modifier = Modifier.height(MaterialTheme.spacings.large))
+                VacanciesPartialList(
+                    vacancies = vacancies,
+                    postVacanciesItem = {
+                        OtherVacanciesButton(
+                            otherVacanciesNumber = otherVacanciesNumber,
+                            onClick = navigateToOtherVacancies
+                        )
+                    },
+                    onLikeClicked = setVacancyLikedState,
+                    onRespondClicked = respondVacancy
+                )
+            }
         }
     }
 }
@@ -129,6 +159,7 @@ private fun MainRawScreenPreview() {
             navigateToOtherVacancies = {},
             setVacancyLikedState = { _, _ ->},
             respondVacancy = {},
+            loading = false,
         )
     }
 }

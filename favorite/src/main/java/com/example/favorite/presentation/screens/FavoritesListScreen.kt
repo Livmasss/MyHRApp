@@ -107,7 +107,7 @@ private fun FavoritesListRawScreenPreview() {
                     company = "Company",
                     isVerified = true,
                     experienceText = "From 1 to 3",
-                    publishData = Calendar.getInstance()
+                    publishDate = Calendar.getInstance()
                 ),
                 VacancyModel(
                     id = UUID.randomUUID(),
@@ -118,7 +118,7 @@ private fun FavoritesListRawScreenPreview() {
                     company = "Company 2",
                     isVerified = true,
                     experienceText = "From 1 to 3",
-                    publishData = Calendar.getInstance()
+                    publishDate = Calendar.getInstance()
                 ),
             ),
             onLikedChange = {},

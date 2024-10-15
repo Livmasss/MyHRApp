@@ -13,7 +13,7 @@ internal val vacanciesPreviewList = listOf(
         isLiked = false,
         company = "Company",
         isVerified = false,
-        publishData = Calendar.getInstance(),
+        publishDate = Calendar.getInstance(),
         experienceText = "Experience from 1 to 3 years"
     ),
     VacancyModel(
@@ -24,7 +24,7 @@ internal val vacanciesPreviewList = listOf(
         isLiked = true,
         company = "ООО Компания",
         isVerified = true,
-        publishData = Calendar.getInstance(),
+        publishDate = Calendar.getInstance(),
         experienceText = "Опыт от 3 до 6 лет"
     ),
     VacancyModel(
@@ -35,7 +35,7 @@ internal val vacanciesPreviewList = listOf(
         isLiked = true,
         company = "Company",
         isVerified = false,
-        publishData = Calendar.getInstance(),
+        publishDate = Calendar.getInstance(),
         experienceText = "No experience"
     ),
     VacancyModel(
@@ -46,7 +46,7 @@ internal val vacanciesPreviewList = listOf(
         isLiked = true,
         company = "Ancor",
         isVerified = true,
-        publishData = Calendar.getInstance(),
+        publishDate = Calendar.getInstance(),
         experienceText = "Опыт от 6 лет"
     ),
 )

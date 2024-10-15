@@ -23,7 +23,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             enableEdgeToEdge()
-
             val navController = rememberNavController()
 
             MyHRAppTheme {

@@ -127,7 +127,7 @@ private fun VacancyMainInfo(
         }
         Spacer(modifier = Modifier.height(MaterialTheme.spacings.small))
 
-        val dateString = MyDateTimeFormatter.formatPublishDate(model.publishData.time)
+        val dateString = MyDateTimeFormatter.formatPublishDate(model.publishDate.time)
         Text(
             text = stringResource(R.string.text_publish_date, dateString),
             style = MaterialTheme.typography.bodySmall,
@@ -150,7 +150,7 @@ private fun VacancyItemPreview() {
                 isVerified = true,
                 company = "Company",
                 experienceText = "Experiency from 1 to 3 years",
-                publishData = Calendar.getInstance()
+                publishDate = Calendar.getInstance()
             ),
             onLikedChange = {},
             onRespondClicked = {}
@@ -172,7 +172,7 @@ private fun VacancyItemPreviewNoInterested() {
                 isVerified = true,
                 company = "Company",
                 experienceText = "Experiency from 1 to 3 years",
-                publishData = Calendar.getInstance()
+                publishDate = Calendar.getInstance()
             ),
             onLikedChange = {},
             onRespondClicked = {}

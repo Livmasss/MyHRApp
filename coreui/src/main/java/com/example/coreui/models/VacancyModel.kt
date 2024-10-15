@@ -12,5 +12,5 @@ data class VacancyModel(
     val company: String,
     val isVerified: Boolean,
     val experienceText: String,
-    val publishData: Calendar
+    val publishDate: Calendar
 )
