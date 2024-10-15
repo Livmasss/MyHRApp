@@ -11,7 +11,7 @@ import com.example.vacancies.domain.models.Vacancy
 
 internal fun VacanciesResponseModel.toDomain(): VacanciesScreenData = VacanciesScreenData (
     recommendations = recommendations?.map { it.toDomain() },
-    vacancies = vacancies?.map { it.toDomain() } ?: listOf(),
+    vacancies = vacancies?.map { it.toDomain() } ?: listOf()
 )
 
 internal fun VacancyResponseModel.toDomain() = Vacancy(
@@ -29,7 +29,7 @@ internal fun RecommendationResponseModel.toDomain() = Recommendation(
     id = id,
     title = title,
     link = link,
-    recommendationButton = recommendationButton.toDomain()
+    recommendationButton = recommendationButton?.toDomain()
 )
 
 internal fun RecommendationResponseModel.RecommendationButtonResponseModel.toDomain() = Recommendation.RecommendationButton(

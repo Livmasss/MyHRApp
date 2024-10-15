@@ -73,6 +73,9 @@ private fun VacancyMainInfo(
 ) {
     Column(modifier) {
         model.interestedPeopleCount?.let {
+            if (model.interestedPeopleCount == 0)
+                return@let
+
             Text(
                 pluralStringResource(
                     R.plurals.interested_people,

@@ -74,8 +74,7 @@ private fun OtherVacanciesRawScreen(
     }
 
     Column(
-        modifier = Modifier
-            .padding(horizontal = MaterialTheme.spacings.medium)
+        modifier = Modifier.padding(horizontal = MaterialTheme.spacings.medium)
     ) {
         SearchOptionsRow(
             searchQuery = searchQuery,

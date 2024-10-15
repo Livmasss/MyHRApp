@@ -1,6 +1,7 @@
 package com.example.hr_app.di
 
 import android.content.Context
+import com.example.favorite.di.favoriteKoinModule
 import com.example.vacancies.di.vacanciesKoinModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -10,6 +11,7 @@ fun KoinApplication.configureKoin(context: Context) {
     androidLogger()
     androidContext(context)
     modules(
-        vacanciesKoinModule
+        vacanciesKoinModule,
+        favoriteKoinModule
     )
 }

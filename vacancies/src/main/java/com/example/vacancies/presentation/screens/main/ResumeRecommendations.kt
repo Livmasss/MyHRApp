@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,6 +31,8 @@ import com.example.vacancies.presentation.models.RecommendationModel
 internal fun RecommendationsRow(
     recommendations: List<RecommendationModel>
 ) {
+    val uriHandler = LocalUriHandler.current
+
     Row(
         modifier = Modifier
             .height(IntrinsicSize.Max)
@@ -40,7 +43,7 @@ internal fun RecommendationsRow(
             RecommendationItem(
                 model = it
             ) {
-
+                uriHandler.openUri(it.link)
             }
         }
     }

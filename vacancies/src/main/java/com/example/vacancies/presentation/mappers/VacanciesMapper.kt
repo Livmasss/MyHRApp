@@ -31,5 +31,5 @@ internal fun Recommendation.toPresentation() = RecommendationModel(
     iconId = getRecommendationIconId(),
     title = title,
     link = link,
-    buttonText = recommendationButton.text
+    buttonText = recommendationButton?.text
 )
