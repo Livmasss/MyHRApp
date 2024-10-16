@@ -23,7 +23,9 @@ internal fun Vacancy.toPresentation() = VacancyModel (
     company = company,
     isVerified = true,
     experienceText = experience.previewText,
-    publishDate = Calendar.getInstance().apply { time = publishDate }
+    publishDate = Calendar.getInstance().apply {
+        time = publishDate
+    }
 )
 
 internal fun Recommendation.toPresentation() = RecommendationModel(

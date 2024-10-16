@@ -14,6 +14,7 @@ import org.junit.runner.RunWith
 import org.junit.Assert.*
 import org.junit.Before
 import java.io.IOException
+import java.util.Date
 import java.util.UUID
 
 
@@ -37,8 +38,7 @@ class FavoriteVacanciesDatabaseTest {
     }
 
     @Test
-    @Throws(Exception::class)
-    fun writeUserAndReadInList() = runTest {
+    fun writeRead1LengthFavoriteVacanciesList() = runTest {
         favoriteDao.clearFavorites()
         val vacancies = listOf(
             FavoriteVacancyEntity(
@@ -47,7 +47,8 @@ class FavoriteVacanciesDatabaseTest {
                 title = "Title",
                 city = "City",
                 company = "Company",
-                experienceText = "Experience"
+                experienceText = "Experience",
+                publishDate = Date()
             )
         )
 

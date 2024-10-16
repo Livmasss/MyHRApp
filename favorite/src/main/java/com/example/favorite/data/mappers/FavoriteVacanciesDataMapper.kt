@@ -21,5 +21,5 @@ internal fun FavoriteVacancy.toData() = FavoriteVacancyEntity(
     city = city,
     company = company,
     experienceText = experienceText,
-//    publishDate = publishDate
+    publishDate = publishDate
 )
