@@ -8,6 +8,9 @@ import com.example.favorite.data.remote.dataSources.FavoritesRemoteDataSource
 import com.example.favorite.data.repositories.impl.FavoriteVacanciesRepositoryImpl
 import com.example.favorite.domain.repositories.FavoriteVacanciesRepository
 import com.example.favorite.domain.useCases.CopyVacanciesToLocalUseCase
+import com.example.favorite.domain.useCases.GetFavoriteVacanciesUseCase
+import com.example.favorite.presentation.screens.FavoritesViewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.koin.ext.getFullName
@@ -35,4 +38,7 @@ val favoriteKoinModule = module {
     }
 
     singleOf(::CopyVacanciesToLocalUseCase)
+    singleOf(::GetFavoriteVacanciesUseCase)
+
+    viewModelOf(::FavoritesViewModel)
 }

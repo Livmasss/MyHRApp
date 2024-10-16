@@ -1,5 +1,6 @@
 package com.example.core
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.net.ConnectException
@@ -13,6 +14,9 @@ fun CoroutineScope.fetchCatching(
     }
     catch (e: ConnectException) {
         onConnectException()
+        Log.e(TAG_CORE, e.stackTraceToString())
     }
-    catch (_: Exception) {}
+    catch (e: Exception) {
+        Log.e(TAG_CORE, e.stackTraceToString())
+    }
 }

@@ -7,9 +7,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -19,13 +20,20 @@ import com.example.coreui.models.VacancyModel
 import com.example.coreui.theme.MyHRAppTheme
 import com.example.coreui.theme.spacings
 import com.example.hr_app.presentation.theme.AppColors
+import org.koin.compose.koinInject
 import java.util.Calendar
 import java.util.UUID
 
 @Composable
-internal fun FavoritesListScreen() {
+internal fun FavoritesListScreen(
+    viewModel: FavoritesViewModel = koinInject()
+) {
+    LaunchedEffect(Unit) {
+        viewModel.initiateFavoriteList(this)
+    }
+
     FavoritesListRawScreen(
-        vacancies = listOf(),
+        vacancies = viewModel.favoriteList.collectAsState().value,
         onLikedChange = {},
         onRespondClicked = {}
     )
@@ -37,20 +45,17 @@ private fun FavoritesListRawScreen(
     onLikedChange: (Boolean) -> Unit,
     onRespondClicked: (VacancyModel) -> Unit
 ) {
-    Scaffold { innerPadding ->
-        Column(
-            modifier = Modifier.padding(horizontal = MaterialTheme.spacings.medium)
-                .padding(innerPadding)
-        ) {
-            HeadingTexts(vacanciesCount = vacancies.size)
-            Spacer(modifier = Modifier.height(MaterialTheme.spacings.medium))
+    Column(
+        modifier = Modifier.padding(horizontal = MaterialTheme.spacings.medium)
+    ) {
+        HeadingTexts(vacanciesCount = vacancies.size)
+        Spacer(modifier = Modifier.height(MaterialTheme.spacings.medium))
 
-            FavoriteVacanciesList(
-                vacancies = vacancies,
-                onLikedChange = onLikedChange,
-                onRespondClicked = onRespondClicked
-            )
-        }
+        FavoriteVacanciesList(
+            vacancies = vacancies,
+            onLikedChange = onLikedChange,
+            onRespondClicked = onRespondClicked
+        )
     }
 }
 
