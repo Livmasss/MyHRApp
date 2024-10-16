@@ -1,7 +1,7 @@
 package com.example.vacancies.presentation.utils.drawable
 
+import com.example.core.domain.models.Recommendation
 import com.example.vacancies.R
-import com.example.vacancies.domain.models.Recommendation
 
 internal fun Recommendation.getRecommendationIconId() = when(id) {
     "near_vacancies" -> R.drawable.ic_near_vacancies

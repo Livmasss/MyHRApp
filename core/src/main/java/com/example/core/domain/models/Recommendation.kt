@@ -1,4 +1,4 @@
-package com.example.vacancies.domain.models
+package com.example.core.domain.models
 
 data class Recommendation (
     val id: String?,

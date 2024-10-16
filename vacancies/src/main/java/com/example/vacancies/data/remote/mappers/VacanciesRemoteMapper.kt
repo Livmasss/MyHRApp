@@ -1,13 +1,13 @@
 package com.example.vacancies.data.remote.mappers
 
+import com.example.core.domain.models.Address
+import com.example.core.domain.models.Experience
+import com.example.core.domain.models.Recommendation
+import com.example.core.domain.models.Vacancy
 import com.example.vacancies.data.remote.models.RecommendationResponseModel
 import com.example.vacancies.data.remote.models.VacanciesResponseModel
 import com.example.vacancies.data.remote.models.VacancyResponseModel
-import com.example.vacancies.domain.models.Address
-import com.example.vacancies.domain.models.Experience
-import com.example.vacancies.domain.models.Recommendation
 import com.example.vacancies.domain.models.VacanciesScreenData
-import com.example.vacancies.domain.models.Vacancy
 
 internal fun VacanciesResponseModel.toDomain(): VacanciesScreenData = VacanciesScreenData (
     recommendations = recommendations?.map { it.toDomain() },

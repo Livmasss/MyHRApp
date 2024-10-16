@@ -59,8 +59,6 @@ dependencies {
 
     implementation(kotlin("reflect"))
 
-    implementation(libs.room.ktx)
-
     implementation(libs.serialization.json)
 
     // Jetpack Navigation

@@ -1,9 +1,9 @@
 package com.example.vacancies.presentation.mappers
 
+import com.example.core.domain.models.Recommendation
+import com.example.core.domain.models.Vacancy
 import com.example.coreui.models.VacancyModel
-import com.example.vacancies.domain.models.Recommendation
 import com.example.vacancies.domain.models.VacanciesScreenData
-import com.example.vacancies.domain.models.Vacancy
 import com.example.vacancies.presentation.models.MainVacanciesScreenModel
 import com.example.vacancies.presentation.models.RecommendationModel
 import com.example.vacancies.presentation.utils.drawable.getRecommendationIconId

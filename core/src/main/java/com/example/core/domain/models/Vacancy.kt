@@ -1,4 +1,4 @@
-package com.example.vacancies.domain.models
+package com.example.core.domain.models
 
 import com.google.gson.annotations.SerializedName
 import java.util.Date
@@ -14,5 +14,4 @@ data class Vacancy (
     @SerializedName("publishedDate")
     val publishDate: Date,
     val isFavorite: Boolean
-
 )
