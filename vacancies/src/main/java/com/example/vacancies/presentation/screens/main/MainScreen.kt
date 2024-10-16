@@ -13,22 +13,31 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.coreui.components.MyCircleProgressIndicator
 import com.example.coreui.models.VacancyModel
 import com.example.coreui.theme.MyHRAppTheme
 import com.example.coreui.theme.spacings
 import com.example.vacancies.presentation.components.VacanciesPartialList
+import com.example.vacancies.presentation.models.MainVacanciesScreenModel
 import com.example.vacancies.presentation.models.RecommendationModel
-import com.example.vacancies.presentation.utils.preview.vacanciesPreviewList
 import org.koin.androidx.compose.koinViewModel
+import java.util.Calendar
+import java.util.UUID
 
 @Composable
 internal fun MainScreen(
@@ -38,10 +47,12 @@ internal fun MainScreen(
 ) {
     val screenState by viewModel.mainVacanciesScreen.collectAsState()
     val scope = rememberCoroutineScope()
+    val lifecycleOwner = LocalLifecycleOwner.current
 
-    LaunchedEffect(Unit) {
-        viewModel.initiateScreenData(scope)
-    }
+    if (screenState == null)
+        LaunchedEffect(Unit) {
+            viewModel.initiateScreenData(scope)
+        }
 
     MainRawScreen(
         recommendations = screenState?.recommendations,
@@ -50,9 +61,25 @@ internal fun MainScreen(
         loading = screenState == null,
         navigateToVacancyDetails = navigateToVacancyDetails,
         navigateToOtherVacancies = navigateToOtherVacancies,
-        setVacancyLikedState = { _, _ -> },
+        setVacancyLikedState = { index, value ->
+            viewModel.setFavorite(index, value)
+        },
         respondVacancy = {}
     )
+
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_STOP) {
+                viewModel.saveFavoriteVacancies()
+            }
+        }
+
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
 }
 
 @Composable
@@ -125,35 +152,52 @@ private fun OtherVacanciesButton(
 @Preview
 @Composable
 private fun MainRawScreenPreview() {
+    var screen by remember {
+        mutableStateOf(
+            MainVacanciesScreenModel(
+                recommendations = listOf(
+                    RecommendationModel(
+                        id = "",
+                        iconId = com.example.vacancies.R.drawable.ic_level_up_resume,
+                        title = "title 1",
+                        buttonText = "text",
+                        link = ""
+                    )
+                ),
+                vacancies = listOf(
+                    VacancyModel(
+                        id = UUID.randomUUID(),
+                        interestedPeopleCount = 1,
+                        title = "Title",
+                        city = "City",
+                        isFavorite = false,
+                        company = "Company",
+                        isVerified = false,
+                        publishDate = Calendar.getInstance(),
+                        experienceText = "Experience from 1 to 3 years"
+                    )
+                )
+            )
+        )
+    }
+
     MyHRAppTheme {
         MainRawScreen(
-            recommendations = listOf(
-                RecommendationModel(
-                    id = "",
-                    iconId = com.example.vacancies.R.drawable.ic_level_up_resume,
-                    title = "title 1",
-                    buttonText = "text",
-                    link = ""
-                ),
-                RecommendationModel(
-                    id = "",
-                    iconId = com.example.vacancies.R.drawable.ic_level_up_resume,
-                    title = "title 2",
-                    link = ""
-                ),
-                RecommendationModel(
-                    id = "",
-                    iconId = com.example.vacancies.R.drawable.ic_level_up_resume,
-                    title = "Really big title number 3",
-                    buttonText = "text",
-                    link = ""
-                )
-            ),
-            vacancies = vacanciesPreviewList,
+            recommendations = screen.recommendations,
+            vacancies = screen.vacancies,
             otherVacanciesNumber = 143,
             navigateToVacancyDetails = {},
             navigateToOtherVacancies = {},
-            setVacancyLikedState = { _, _ ->},
+            setVacancyLikedState = { index, value ->
+                val newVacancies = List(screen.vacancies.size) {
+                    screen.vacancies[it].copy(
+                        isFavorite = if (it == index) value else screen.vacancies[it].isFavorite
+                    )
+                }
+                screen = screen.copy(
+                    vacancies = newVacancies
+                )
+                                   },
             respondVacancy = {},
             loading = false,
         )

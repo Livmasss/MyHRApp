@@ -1,5 +1,6 @@
 package com.example.vacancies.presentation.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -8,6 +9,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,6 +23,8 @@ import com.example.coreui.theme.MyHRAppTheme
 import com.example.coreui.theme.spacings
 import com.example.vacancies.R
 import com.example.vacancies.presentation.utils.preview.vacanciesPreviewList
+import java.util.Calendar
+import java.util.UUID
 
 @Composable
 internal fun VacanciesPartialList(
@@ -85,7 +93,7 @@ private fun VacanciesList(
             VacancyItem(
                 model = vacancy,
                 onLikedChange = {
-                    onLikeClicked(index, !vacancy.isLiked)
+                    onLikeClicked(index, it)
                 },
                 onRespondClicked = {
                     onRespondClicked(index)
@@ -105,10 +113,29 @@ private fun VacanciesList(
 @Composable
 @Preview
 private fun VacanciesListPreview() {
+    val vacancies = remember {
+        mutableStateListOf(
+            VacancyModel(
+                id = UUID.randomUUID(),
+                interestedPeopleCount = 1,
+                title = "Title",
+                city = "City",
+                isFavorite = false,
+                company = "Company",
+                isVerified = false,
+                publishDate = Calendar.getInstance(),
+                experienceText = "Experience from 1 to 3 years"
+            )
+        )
+    }
+
     MyHRAppTheme {
         VacanciesPartialList(
-            vacancies = vacanciesPreviewList,
-            onLikeClicked = { _, _ -> },
+            vacancies = vacancies,
+            onLikeClicked = { index, value ->
+                vacancies[index] = vacancies[index].copy(isFavorite = value)
+                Log.d("test", vacancies[0].isFavorite.toString())
+            },
             onRespondClicked = {}
         )
     }

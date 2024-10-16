@@ -51,7 +51,7 @@ fun VacancyItem(
                     model = model
                 )
                 LikeIconButton(
-                    isLiked = model.isLiked,
+                    isLiked = model.isFavorite,
                     onLikedChange = onLikedChange
                 )
             }
@@ -149,7 +149,7 @@ private fun VacancyItemPreview() {
                 interestedPeopleCount = 12,
                 title = "Vacancy",
                 city = "City",
-                isLiked = true,
+                isFavorite = true,
                 isVerified = true,
                 company = "Company",
                 experienceText = "Experiency from 1 to 3 years",
@@ -171,7 +171,7 @@ private fun VacancyItemPreviewNoInterested() {
                 interestedPeopleCount = null,
                 title = "Vacancy",
                 city = "City",
-                isLiked = true,
+                isFavorite = true,
                 isVerified = true,
                 company = "Company",
                 experienceText = "Experiency from 1 to 3 years",

@@ -23,7 +23,7 @@ internal class FavoritesViewModel(
 
     fun likeVacancy(vacancy: VacancyModel) {
         if (vacancy !in _favoriteList.value) {
-            vacancy.isLiked = true
+            vacancy.isFavorite = true
             _favoriteList.value += vacancy
         }
     }
@@ -31,7 +31,7 @@ internal class FavoritesViewModel(
     fun unlikeVacancy(vacancy: VacancyModel) {
         if (vacancy in _favoriteList.value) {
             _favoriteList.value -= vacancy
-            vacancy.isLiked = false
+            vacancy.isFavorite = false
 
         }
     }
