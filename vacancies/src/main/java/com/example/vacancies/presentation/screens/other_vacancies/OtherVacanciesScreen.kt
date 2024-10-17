@@ -25,6 +25,7 @@ import com.example.coreui.components.MyCircleProgressIndicator
 import com.example.coreui.models.VacancyModel
 import com.example.coreui.theme.MyHRAppTheme
 import com.example.coreui.theme.spacings
+import com.example.coreui.utils.OnStopDisposedEffect
 import com.example.vacancies.presentation.components.VacanciesWholeList
 import com.example.vacancies.presentation.screens.main.SearchOptionsRow
 import com.example.vacancies.presentation.utils.preview.vacanciesPreviewList
@@ -37,9 +38,11 @@ internal fun OtherVacanciesScreen(
 ) {
     val screenState = viewModel.screenState.collectAsState().value
     val scope = rememberCoroutineScope()
+    val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
 
     LaunchedEffect(Unit) {
-        viewModel.initiateScreen(scope)
+        if (screenState == null)
+            viewModel.initiateScreen(scope)
     }
 
     OtherVacanciesRawScreen(
@@ -48,9 +51,15 @@ internal fun OtherVacanciesScreen(
         searchQuery = "",
         onSearchQueryChange = {},
         onBackButtonClicked = onBackButtonClicked,
-        changeLikeState = { _, _ -> },
+        changeLikeState = { index, value ->
+            viewModel.setIsFavorite(index, value)
+        },
         respondVacancy = {}
     )
+
+    OnStopDisposedEffect(lifecycleOwner) {
+        viewModel.saveFavoriteVacancies()
+    }
 }
 
 @Composable

@@ -6,7 +6,7 @@ internal data class RecommendationResponseModel(
     val id: String?,
     val title: String,
     val link: String,
-    @SerializedName("offerButton")
+    @SerializedName("button")
     val recommendationButton: RecommendationButtonResponseModel?
 ) {
     data class RecommendationButtonResponseModel (

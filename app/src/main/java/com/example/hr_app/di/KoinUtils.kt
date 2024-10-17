@@ -11,6 +11,7 @@ fun KoinApplication.configureKoin(context: Context) {
     androidLogger()
     androidContext(context)
     modules(
+        coreKoinModule,
         vacanciesKoinModule,
         favoriteKoinModule
     )

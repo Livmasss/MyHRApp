@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.navigation.compose)
+    implementation(project(":core"))
 
     testImplementation(libs.junit)
 

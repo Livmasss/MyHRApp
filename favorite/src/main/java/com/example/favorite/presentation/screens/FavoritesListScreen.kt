@@ -15,10 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.coreui.components.VacancyItem
 import com.example.coreui.models.VacancyModel
 import com.example.coreui.theme.MyHRAppTheme
 import com.example.coreui.theme.spacings
+import com.example.coreui.utils.OnStopDisposedEffect
 import com.example.hr_app.presentation.theme.AppColors
 import org.koin.compose.koinInject
 import java.util.Calendar
@@ -28,21 +30,32 @@ import java.util.UUID
 internal fun FavoritesListScreen(
     viewModel: FavoritesViewModel = koinInject()
 ) {
+    val lifecycleOwner = LocalLifecycleOwner.current
+
     LaunchedEffect(Unit) {
         viewModel.initiateFavoriteList(this)
     }
 
     FavoritesListRawScreen(
         vacancies = viewModel.favoriteList.collectAsState().value,
-        onLikedChange = {},
+        onLikedChange = { index, value ->
+            if (value)
+                viewModel.likeVacancy(index)
+            else
+                viewModel.unlikeVacancy(index)
+        },
         onRespondClicked = {}
     )
+
+    OnStopDisposedEffect(owner = lifecycleOwner) {
+        viewModel.saveFavoriteVacancies()
+    }
 }
 
 @Composable
 private fun FavoritesListRawScreen(
     vacancies: List<VacancyModel>,
-    onLikedChange: (Boolean) -> Unit,
+    onLikedChange: (index: Int, value: Boolean) -> Unit,
     onRespondClicked: (VacancyModel) -> Unit
 ) {
     Column(
@@ -76,7 +89,7 @@ private fun HeadingTexts(vacanciesCount: Int) {
 @Composable
 private fun FavoriteVacanciesList(
     vacancies: List<VacancyModel>,
-    onLikedChange: (Boolean) -> Unit,
+    onLikedChange: (index: Int, value: Boolean) -> Unit,
     onRespondClicked: (VacancyModel) -> Unit
 ) {
     LazyColumn(
@@ -90,7 +103,9 @@ private fun FavoriteVacanciesList(
 
             VacancyItem(
                 model = vacancy,
-                onLikedChange = onLikedChange,
+                onLikedChange = {
+                    onLikedChange(index, it)
+                                },
                 onRespondClicked = onRespondClicked
             )
         }
@@ -126,7 +141,7 @@ private fun FavoritesListRawScreenPreview() {
                     publishDate = Calendar.getInstance()
                 ),
             ),
-            onLikedChange = {},
+            onLikedChange = { _, _ -> },
             onRespondClicked = {}
         )
     }

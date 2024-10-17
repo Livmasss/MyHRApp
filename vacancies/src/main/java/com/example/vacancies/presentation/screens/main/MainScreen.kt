@@ -13,7 +13,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -25,13 +24,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.example.coreui.components.MyCircleProgressIndicator
 import com.example.coreui.models.VacancyModel
 import com.example.coreui.theme.MyHRAppTheme
 import com.example.coreui.theme.spacings
+import com.example.coreui.utils.OnStopDisposedEffect
 import com.example.vacancies.presentation.components.VacanciesPartialList
 import com.example.vacancies.presentation.models.MainVacanciesScreenModel
 import com.example.vacancies.presentation.models.RecommendationModel
@@ -62,23 +60,13 @@ internal fun MainScreen(
         navigateToVacancyDetails = navigateToVacancyDetails,
         navigateToOtherVacancies = navigateToOtherVacancies,
         setVacancyLikedState = { index, value ->
-            viewModel.setFavorite(index, value)
+            viewModel.setIsFavorite(index, value)
         },
         respondVacancy = {}
     )
 
-    DisposableEffect(lifecycleOwner) {
-        val observer = LifecycleEventObserver { _, event ->
-            if (event == Lifecycle.Event.ON_STOP) {
-                viewModel.saveFavoriteVacancies()
-            }
-        }
-
-        lifecycleOwner.lifecycle.addObserver(observer)
-
-        onDispose {
-            lifecycleOwner.lifecycle.removeObserver(observer)
-        }
+    OnStopDisposedEffect(lifecycleOwner) {
+        viewModel.saveFavoriteVacancies()
     }
 }
 

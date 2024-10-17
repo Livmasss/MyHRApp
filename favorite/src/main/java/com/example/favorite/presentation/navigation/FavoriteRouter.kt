@@ -19,7 +19,6 @@ fun FavoriteRouter() {
             FavoritesListScreen()
         }
     }
-    FavoritesListScreen()
 }
 
 @Serializable private data object FavoriteList
