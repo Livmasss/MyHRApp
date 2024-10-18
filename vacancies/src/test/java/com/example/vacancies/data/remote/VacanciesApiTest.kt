@@ -1,7 +1,7 @@
 package com.example.vacancies.data.remote
 
 import com.example.core.data.remote.RetrofitConfig
-import com.example.vacancies.data.remote.models.VacanciesResponseModel
+import com.example.vacancies.data.remote.models.VacanciesScreenResponseModel
 import junit.framework.TestCase.assertNotNull
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.test.runTest
@@ -11,7 +11,7 @@ import org.junit.Test
 class VacanciesApiTest {
     companion object {
         private val api = RetrofitConfig.createApi(VacanciesApi::class.java)
-        private var responseBody: VacanciesResponseModel? = null
+        private var responseBody: VacanciesScreenResponseModel? = null
     }
 
     @Test
@@ -35,7 +35,7 @@ class VacanciesApiTest {
         assertFalse { checkedBody.vacancies!!.isEmpty() }
     }
 
-    private suspend fun takeBody(): VacanciesResponseModel {
+    private suspend fun takeBody(): VacanciesScreenResponseModel {
         if (responseBody != null)
             return responseBody!!
 

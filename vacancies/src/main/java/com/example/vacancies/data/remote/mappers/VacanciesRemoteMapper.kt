@@ -5,11 +5,11 @@ import com.example.core.domain.models.Experience
 import com.example.core.domain.models.Recommendation
 import com.example.core.domain.models.Vacancy
 import com.example.vacancies.data.remote.models.RecommendationResponseModel
-import com.example.vacancies.data.remote.models.VacanciesResponseModel
+import com.example.vacancies.data.remote.models.VacanciesScreenResponseModel
 import com.example.vacancies.data.remote.models.VacancyResponseModel
 import com.example.vacancies.domain.models.VacanciesScreenData
 
-internal fun VacanciesResponseModel.toDomain(): VacanciesScreenData = VacanciesScreenData (
+internal fun VacanciesScreenResponseModel.toDomain(): VacanciesScreenData = VacanciesScreenData (
     recommendations = recommendations?.map { it.toDomain() },
     vacancies = vacancies?.map { it.toDomain() } ?: listOf()
 )

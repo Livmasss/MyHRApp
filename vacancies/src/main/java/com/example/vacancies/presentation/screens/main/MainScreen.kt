@@ -47,10 +47,9 @@ internal fun MainScreen(
     val scope = rememberCoroutineScope()
     val lifecycleOwner = LocalLifecycleOwner.current
 
-    if (screenState == null)
-        LaunchedEffect(Unit) {
-            viewModel.initiateScreenData(scope)
-        }
+    LaunchedEffect(Unit) {
+        viewModel.initiateScreenData(scope)
+    }
 
     MainRawScreen(
         recommendations = screenState?.recommendations,

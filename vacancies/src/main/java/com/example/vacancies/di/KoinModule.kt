@@ -6,6 +6,7 @@ import com.example.vacancies.data.remote.VacanciesApi
 import com.example.vacancies.data.remote.dataSources.VacanciesRemoteDataSource
 import com.example.vacancies.data.repositories.impl.VacanciesRepositoryImpl
 import com.example.vacancies.domain.repositories.VacanciesRepository
+import com.example.vacancies.domain.useCases.GetCachedVacanciesUseCase
 import com.example.vacancies.domain.useCases.GetVacanciesScreenUseCase
 import com.example.vacancies.presentation.screens.main.MainVacanciesViewModel
 import com.example.vacancies.presentation.screens.other_vacancies.OtherVacanciesViewModel
@@ -21,9 +22,10 @@ val vacanciesKoinModule = module {
     singleOf(::VacanciesLocalDataSource)
 
     single<VacanciesRepository> {
-        VacanciesRepositoryImpl(get(), get())
+        VacanciesRepositoryImpl(get(), get(), get())
     }
     singleOf(::GetVacanciesScreenUseCase)
+    singleOf(::GetCachedVacanciesUseCase)
 
     viewModelOf(::MainVacanciesViewModel)
     viewModelOf(::OtherVacanciesViewModel)

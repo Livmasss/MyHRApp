@@ -1,10 +1,10 @@
 package com.example.vacancies.data.remote
 
-import com.example.vacancies.data.remote.models.VacanciesResponseModel
+import com.example.vacancies.data.remote.models.VacanciesScreenResponseModel
 import retrofit2.Response
 import retrofit2.http.GET
 
 internal interface VacanciesApi {
     @GET("u/0/uc?id=1z4TbeDkbfXkvgpoJprXbN85uCcD7f00r&export=download/")
-    suspend fun getMainScreenInfo(): Response<VacanciesResponseModel>
+    suspend fun getMainScreenInfo(): Response<VacanciesScreenResponseModel>
 }

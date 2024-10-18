@@ -1,14 +1,13 @@
 package com.example.vacancies.data.local
 
-import com.example.vacancies.data.remote.models.VacancyResponseModel
+import com.example.core.domain.models.Vacancy
 
 internal class VacanciesLocalDataSource {
     // replace this implementation with some good caching
-    private var _fetchedVacancies: List<VacancyResponseModel>? = null
-    val fetchedVacancies: List<VacancyResponseModel>?
-        get() = _fetchedVacancies
+    private var _fetchedVacancies: List<Vacancy>? = null
+    fun getCachedVacancies() = _fetchedVacancies
 
-    fun cacheFetchedVacancies(vacancies: List<VacancyResponseModel>) {
+    fun cacheFetchedVacancies(vacancies: List<Vacancy>) {
         _fetchedVacancies = vacancies
     }
     fun clearFetchedVacancies() {

@@ -2,11 +2,9 @@ package com.example.vacancies.presentation.screens.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core.domain.useCases.SynchronizeFavoritesUseCase
 import com.example.core.fetchCatching
 import com.example.coreui.mappers.toDomain
 import com.example.favorite.domain.useCases.UpdateFavoriteVacanciesUseCase
-import com.example.favorite.domain.useCases.GetFavoriteVacanciesUseCase
 import com.example.vacancies.domain.useCases.GetVacanciesScreenUseCase
 import com.example.vacancies.presentation.mappers.toPresentation
 import com.example.vacancies.presentation.models.MainVacanciesScreenModel
@@ -18,9 +16,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 internal class MainVacanciesViewModel(
     private val getVacanciesScreenUseCase: GetVacanciesScreenUseCase,
-    private val updateFavoriteVacanciesUseCase: UpdateFavoriteVacanciesUseCase,
-    private val getFavoriteVacanciesUseCase: GetFavoriteVacanciesUseCase,
-    private val synchronizeFavoritesUseCase: SynchronizeFavoritesUseCase
+    private val updateFavoriteVacanciesUseCase: UpdateFavoriteVacanciesUseCase
 ): ViewModel() {
     private val _mainVacanciesScreen = MutableStateFlow<MainVacanciesScreenModel?>(null)
     val mainVacanciesScreen = _mainVacanciesScreen.asStateFlow()
@@ -29,16 +25,8 @@ internal class MainVacanciesViewModel(
         scope.fetchCatching(
             onConnectException = {}
         ) {
-            val favoriteIds = getFavoriteVacanciesUseCase.execute().map { it.id }
-
             getVacanciesScreenUseCase.execute().collectLatest {
-                val synchronizedScreenModel = it.copy(
-                    vacancies = synchronizeFavoritesUseCase.execute(
-                        remoteVacancies = it.vacancies,
-                        favoritesIds = favoriteIds
-                    )
-                )
-                _mainVacanciesScreen.value = synchronizedScreenModel.toPresentation()
+                _mainVacanciesScreen.value = it.toPresentation()
             }
         }
     }

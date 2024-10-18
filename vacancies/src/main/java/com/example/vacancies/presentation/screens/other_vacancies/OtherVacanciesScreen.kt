@@ -36,18 +36,17 @@ internal fun OtherVacanciesScreen(
     viewModel: OtherVacanciesViewModel = koinViewModel(),
     onBackButtonClicked: () -> Unit
 ) {
-    val screenState = viewModel.screenState.collectAsState().value
+    val vacancies = viewModel.vacancies.collectAsState().value
     val scope = rememberCoroutineScope()
     val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
 
     LaunchedEffect(Unit) {
-        if (screenState == null)
-            viewModel.initiateScreen(scope)
+        viewModel.initiateScreen(scope)
     }
 
     OtherVacanciesRawScreen(
-        vacancies = screenState?.vacancies ?: listOf(),
-        loading = screenState == null,
+        vacancies = vacancies ?: listOf(),
+        loading = vacancies == null,
         searchQuery = "",
         onSearchQueryChange = {},
         onBackButtonClicked = onBackButtonClicked,
