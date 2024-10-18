@@ -38,12 +38,13 @@ import java.util.Calendar
 import java.util.UUID
 
 @Composable
-internal fun MainScreen(
-    viewModel: MainVacanciesViewModel = koinViewModel(),
-    navigateToVacancyDetails: () -> Unit,
+fun MainScreen(
+    onVacancyClicked: (VacancyModel) -> Unit,
     navigateToOtherVacancies: () -> Unit,
     onFavoriteCountChange: (count: Int) -> Unit,
 ) {
+    val viewModel: MainVacanciesViewModel = koinViewModel()
+
     val screenState by viewModel.mainVacanciesScreen.collectAsState()
     val scope = rememberCoroutineScope()
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -60,7 +61,7 @@ internal fun MainScreen(
         vacancies = screenState?.vacancies ?: listOf(),
         otherVacanciesNumber = screenState?.vacancies?.size ?: 0,
         loading = viewModel.loading.collectAsState().value,
-        navigateToVacancyDetails = navigateToVacancyDetails,
+        onVacancyClicked = onVacancyClicked,
         navigateToOtherVacancies = navigateToOtherVacancies,
         setVacancyLikedState = { index, value ->
             viewModel.setIsFavorite(index, value)
@@ -79,7 +80,7 @@ internal fun MainRawScreen(
     recommendations: List<RecommendationModel>?,
     vacancies: List<VacancyModel>,
     otherVacanciesNumber: Int,
-    navigateToVacancyDetails: () -> Unit,
+    onVacancyClicked: (VacancyModel) -> Unit,
     navigateToOtherVacancies: () -> Unit,
     setVacancyLikedState: (index: Int, value: Boolean) -> Unit,
     respondVacancy: (index: Int) -> Unit,
@@ -118,7 +119,8 @@ internal fun MainRawScreen(
                 )
             },
             onLikeClicked = setVacancyLikedState,
-            onRespondClicked = respondVacancy
+            onRespondClicked = respondVacancy,
+            onItemClick = onVacancyClicked
         )
     }
 }
@@ -178,7 +180,7 @@ private fun MainRawScreenPreview() {
             recommendations = screen.recommendations,
             vacancies = screen.vacancies,
             otherVacanciesNumber = 143,
-            navigateToVacancyDetails = {},
+            onVacancyClicked = {},
             navigateToOtherVacancies = {},
             setVacancyLikedState = { index, value ->
                 val newVacancies = List(screen.vacancies.size) {

@@ -32,12 +32,13 @@ import com.example.vacancies.presentation.utils.preview.vacanciesPreviewList
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-internal fun OtherVacanciesScreen(
-    viewModel: OtherVacanciesViewModel = koinViewModel(),
+fun OtherVacanciesScreen(
     onBackButtonClicked: () -> Unit,
     onFavoriteCountChange: (count: Int) -> Unit,
-    navigateToVacancyDetails: () -> Unit
+    navigateToVacancyDetails: (VacancyModel) -> Unit
 ) {
+    val viewModel: OtherVacanciesViewModel = koinViewModel()
+
     val vacancies = viewModel.vacancies.collectAsState().value
     val scope = rememberCoroutineScope()
     val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
@@ -55,11 +56,12 @@ internal fun OtherVacanciesScreen(
         searchQuery = "",
         onSearchQueryChange = {},
         onBackButtonClicked = onBackButtonClicked,
-        changeLikeState = { index, value ->
+        onLikeStateChange = { index, value ->
             viewModel.setIsFavorite(index, value)
             onFavoriteCountChange(viewModel.favoritesCount)
         },
-        respondVacancy = {}
+        onRespondVacancy = {},
+        onVacancyClicked = navigateToVacancyDetails
     )
 
     OnStopDisposedEffect(lifecycleOwner) {
@@ -73,9 +75,10 @@ private fun OtherVacanciesRawScreen(
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
     onBackButtonClicked: () -> Unit,
-    changeLikeState: (index: Int, value: Boolean) -> Unit,
-    respondVacancy: (index: Int) -> Unit,
+    onLikeStateChange: (index: Int, value: Boolean) -> Unit,
+    onRespondVacancy: (index: Int) -> Unit,
     loading: Boolean,
+    onVacancyClicked: (VacancyModel) -> Unit
 ) {
     if (loading) {
         Box(
@@ -111,8 +114,9 @@ private fun OtherVacanciesRawScreen(
 
         VacanciesWholeList(
             vacancies = vacancies,
-            onLikeClicked = changeLikeState,
-            onRespondClicked = respondVacancy
+            onLikeClicked = onLikeStateChange,
+            onRespondClicked = onRespondVacancy,
+            onItemClick = onVacancyClicked
         )
     }
 }
@@ -145,8 +149,9 @@ private fun OtherVacanciesRawScreenPreview() {
             searchQuery = "",
             onSearchQueryChange = {},
             onBackButtonClicked = {},
-            changeLikeState = { _, _ -> },
-            respondVacancy = {},
+            onLikeStateChange = { _, _ -> },
+            onRespondVacancy = {},
+            onVacancyClicked = {},
             loading = false
         )
     }

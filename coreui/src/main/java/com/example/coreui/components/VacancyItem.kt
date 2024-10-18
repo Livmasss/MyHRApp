@@ -34,11 +34,13 @@ import java.util.UUID
 fun VacancyItem(
     modifier: Modifier = Modifier,
     model: VacancyModel,
+    onClick: (VacancyModel) -> Unit,
     onLikedChange: (Boolean) -> Unit,
     onRespondClicked: (VacancyModel) -> Unit
 ) {
     Card(
-        modifier = Modifier.then(modifier)
+        modifier = Modifier.then(modifier),
+        onClick = { onClick(model) }
     ) {
         Column(
             modifier = Modifier.padding(MaterialTheme.spacings.medium)
@@ -156,7 +158,8 @@ private fun VacancyItemPreview() {
                 publishDate = Calendar.getInstance()
             ),
             onLikedChange = {},
-            onRespondClicked = {}
+            onRespondClicked = {},
+            onClick = {}
         )
     }
 }
@@ -174,11 +177,12 @@ private fun VacancyItemPreviewNoInterested() {
                 isFavorite = true,
                 isVerified = true,
                 company = "Company",
-                experienceText = "Experiency from 1 to 3 years",
+                experienceText = "Experience from 1 to 3 years",
                 publishDate = Calendar.getInstance()
             ),
             onLikedChange = {},
-            onRespondClicked = {}
+            onRespondClicked = {},
+            onClick = {}
         )
     }
 }

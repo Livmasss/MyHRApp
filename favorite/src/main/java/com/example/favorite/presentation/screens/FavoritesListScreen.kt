@@ -27,10 +27,11 @@ import java.util.Calendar
 import java.util.UUID
 
 @Composable
-internal fun FavoritesListScreen(
-    viewModel: FavoritesViewModel = koinInject(),
-    onFavoriteCountChange: (count: Int) -> Unit
+fun FavoritesListScreen(
+    onFavoriteCountChange: (count: Int) -> Unit,
+    onItemClicked: (VacancyModel) -> Unit
 ) {
+    val viewModel: FavoritesViewModel = koinInject()
     val lifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(Unit) {
@@ -46,7 +47,8 @@ internal fun FavoritesListScreen(
             viewModel.unlikeVacancy(index)
             onFavoriteCountChange(viewModel.favoriteList.value.size)
         },
-        onRespondClicked = {}
+        onRespondClicked = {},
+        onItemClicked = onItemClicked
     )
 
     OnStopDisposedEffect(owner = lifecycleOwner) {
@@ -58,7 +60,8 @@ internal fun FavoritesListScreen(
 private fun FavoritesListRawScreen(
     vacancies: List<VacancyModel>,
     onLikedChange: (index: Int, value: Boolean) -> Unit,
-    onRespondClicked: (VacancyModel) -> Unit
+    onRespondClicked: (VacancyModel) -> Unit,
+    onItemClicked: (VacancyModel) -> Unit
 ) {
     Column(
         modifier = Modifier.padding(horizontal = MaterialTheme.spacings.medium)
@@ -69,7 +72,8 @@ private fun FavoritesListRawScreen(
         FavoriteVacanciesList(
             vacancies = vacancies,
             onLikedChange = onLikedChange,
-            onRespondClicked = onRespondClicked
+            onRespondClicked = onRespondClicked,
+            onItemClicked = onItemClicked
         )
     }
 }
@@ -92,7 +96,8 @@ private fun HeadingTexts(vacanciesCount: Int) {
 private fun FavoriteVacanciesList(
     vacancies: List<VacancyModel>,
     onLikedChange: (index: Int, value: Boolean) -> Unit,
-    onRespondClicked: (VacancyModel) -> Unit
+    onRespondClicked: (VacancyModel) -> Unit,
+    onItemClicked: (VacancyModel) -> Unit
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacings.medium)
@@ -108,7 +113,8 @@ private fun FavoriteVacanciesList(
                 onLikedChange = {
                     onLikedChange(index, it)
                                 },
-                onRespondClicked = onRespondClicked
+                onRespondClicked = onRespondClicked,
+                onClick = onItemClicked
             )
         }
     }
@@ -144,7 +150,8 @@ private fun FavoritesListRawScreenPreview() {
                 ),
             ),
             onLikedChange = { _, _ -> },
-            onRespondClicked = {}
+            onRespondClicked = {},
+            onItemClicked = {}
         )
     }
 }

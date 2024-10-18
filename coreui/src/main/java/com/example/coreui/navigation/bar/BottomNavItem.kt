@@ -5,7 +5,7 @@ import androidx.annotation.StringRes
 import com.example.coreui.R
 import kotlinx.serialization.Serializable
 
-
+@Serializable
 sealed class BottomNavItem {
     abstract val route: String
     @get:DrawableRes

@@ -32,6 +32,7 @@ internal fun VacanciesPartialList(
     postVacanciesItem: (@Composable () -> Unit)? = null,
     onLikeClicked: (index: Int, value: Boolean) -> Unit,
     onRespondClicked: (index: Int) -> Unit,
+    onItemClick: (VacancyModel) -> Unit
 ) {
     val vacanciesWithCheckedSize = try {
         vacancies.slice(0 until 3)
@@ -52,7 +53,8 @@ internal fun VacanciesPartialList(
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacings.medium),
             postVacanciesItem = postVacanciesItem,
             onLikeClicked = onLikeClicked,
-            onRespondClicked = onRespondClicked
+            onRespondClicked = onRespondClicked,
+            onItemClick = onItemClick
         )
     }
 }
@@ -62,12 +64,14 @@ internal fun VacanciesWholeList(
     vacancies: List<VacancyModel>,
     onLikeClicked: (index: Int, value: Boolean) -> Unit,
     onRespondClicked: (index: Int) -> Unit,
+    onItemClick: (VacancyModel) -> Unit
 ) {
     VacanciesList(
         vacancies = vacancies,
         verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacings.small),
         onLikeClicked = onLikeClicked,
-        onRespondClicked = onRespondClicked
+        onRespondClicked = onRespondClicked,
+        onItemClick = onItemClick
     )
 }
 
@@ -78,6 +82,7 @@ private fun VacanciesList(
     postVacanciesItem: (@Composable () -> Unit)? = null,
     onLikeClicked: (index: Int, value: Boolean) -> Unit,
     onRespondClicked: (index: Int) -> Unit,
+    onItemClick: (VacancyModel) -> Unit
 ) {
     LazyColumn(
         verticalArrangement = verticalArrangement
@@ -97,7 +102,8 @@ private fun VacanciesList(
                 },
                 onRespondClicked = {
                     onRespondClicked(index)
-                }
+                },
+                onClick = onItemClick
             )
         }
 
@@ -136,7 +142,8 @@ private fun VacanciesListPreview() {
                 vacancies[index] = vacancies[index].copy(isFavorite = value)
                 Log.d("test", vacancies[0].isFavorite.toString())
             },
-            onRespondClicked = {}
+            onRespondClicked = {},
+            onItemClick = {}
         )
     }
 }

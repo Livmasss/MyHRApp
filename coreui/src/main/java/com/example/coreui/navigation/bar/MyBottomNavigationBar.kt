@@ -33,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -52,10 +53,10 @@ fun MyBottomNavigationBar(
                 .windowInsetsPadding(NavigationBarDefaults.windowInsets)
         ) {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.destination?.route
+            val currentDestination = navBackStackEntry?.destination
 
             BottomNavItem.getObjectInstances().forEach { item ->
-                val selected = currentRoute == item.route
+                val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
 
                 if (item == BottomNavItem.Favorite && favoritesCount != null)
                     BottomNavigationItemWithCount(
@@ -89,7 +90,8 @@ private fun RowScope.BottomNavigationItemWithCount(
         item = item,
         selected = selected,
         bubble = {
-            CountBubble(count)
+            if (count > 0)
+                CountBubble(count)
         }
     )
 }
