@@ -8,7 +8,7 @@ import com.example.favorite.presentation.screens.FavoritesListScreen
 import kotlinx.serialization.Serializable
 
 @Composable
-fun FavoriteRouter() {
+fun FavoriteRouter(onFavoriteCountChange: (count: Int) -> Unit) {
     val navController = rememberNavController()
 
     NavHost(
@@ -16,7 +16,9 @@ fun FavoriteRouter() {
         startDestination = FavoriteList
     ) {
         composable<FavoriteList> {
-            FavoritesListScreen()
+            FavoritesListScreen(
+                onFavoriteCountChange = onFavoriteCountChange
+            )
         }
     }
 }

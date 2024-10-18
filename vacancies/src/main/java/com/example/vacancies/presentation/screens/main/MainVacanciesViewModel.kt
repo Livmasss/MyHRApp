@@ -21,13 +21,17 @@ internal class MainVacanciesViewModel(
     private val _mainVacanciesScreen = MutableStateFlow<MainVacanciesScreenModel?>(null)
     val mainVacanciesScreen = _mainVacanciesScreen.asStateFlow()
 
-    fun initiateScreenData(scope: CoroutineScope = viewModelScope) {
+    fun initiateScreenData(
+        scope: CoroutineScope = viewModelScope,
+        onFavoriteCountChange: (count: Int) -> Unit
+    ) {
         scope.fetchCatching(
             onConnectException = {}
         ) {
             getVacanciesScreenUseCase.execute().collectLatest {
                 _mainVacanciesScreen.value = it.toPresentation()
             }
+            onFavoriteCountChange(favoritesCount)
         }
     }
 
@@ -60,4 +64,9 @@ internal class MainVacanciesViewModel(
             }
         }
     }
+
+    val favoritesCount: Int
+        get() = _mainVacanciesScreen.value?.vacancies?.filter { v ->
+        v.isFavorite
+    }?.size ?: 0
 }

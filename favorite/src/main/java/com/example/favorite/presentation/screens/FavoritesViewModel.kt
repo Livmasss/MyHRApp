@@ -19,23 +19,19 @@ internal class FavoritesViewModel(
     private val _favoriteList = MutableStateFlow<List<VacancyModel>>(listOf())
     val favoriteList = _favoriteList.asStateFlow()
 
-    fun initiateFavoriteList(scope: CoroutineScope) = scope.fetchCatching(
+    fun initiateFavoriteList(
+        scope: CoroutineScope,
+        onFavoriteCountChange: (count: Int) -> Unit
+    ) = scope.fetchCatching(
         onConnectException = {}
     ) {
         _favoriteList.value = getFavoriteVacanciesUseCase.execute().map { it.toModel() }
-    }
-
-    fun likeVacancy(index: Int) {
-        if (index < _favoriteList.value.size ) {
-            val vacancy = _favoriteList.value[index]
-            vacancy.isFavorite = true
-            _favoriteList.value += vacancy
-        }
+        onFavoriteCountChange(favoriteList.value.size)
     }
 
     fun unlikeVacancy(index: Int) {
-        if (index < _favoriteList.value.size ) {
-            val vacancy = _favoriteList.value[index]
+        if (index < favoriteList.value.size ) {
+            val vacancy = favoriteList.value[index]
             _favoriteList.value -= vacancy
             vacancy.isFavorite = false
         }

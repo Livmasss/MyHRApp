@@ -8,10 +8,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.coreui.navigation.bar.MyBottomNavigationBar
 import com.example.coreui.theme.MyHRAppTheme
@@ -25,35 +26,31 @@ class MainActivity : ComponentActivity() {
             enableEdgeToEdge()
             val navController = rememberNavController()
 
+            var favoritesCount by rememberSaveable {
+                mutableStateOf<Int?>(null)
+            }
+
             MyHRAppTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
 
                     bottomBar = {
-                        MyBottomNavigationBar(navController = navController)
+                        MyBottomNavigationBar(
+                            navController = navController,
+                            favoritesCount = favoritesCount
+                        )
                     }
                 ) { innerPadding ->
                     Box(modifier = Modifier.padding(innerPadding)) {
-                        MainAppRouter(navController = navController)
+                        MainAppRouter(
+                            navController = navController,
+                            onFavoriteCountChange = {
+                                favoritesCount = it
+                            }
+                        )
                     }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MyHRAppTheme {
-        Greeting("Android")
     }
 }

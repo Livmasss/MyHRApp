@@ -34,14 +34,19 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 internal fun OtherVacanciesScreen(
     viewModel: OtherVacanciesViewModel = koinViewModel(),
-    onBackButtonClicked: () -> Unit
+    onBackButtonClicked: () -> Unit,
+    onFavoriteCountChange: (count: Int) -> Unit,
+    navigateToVacancyDetails: () -> Unit
 ) {
     val vacancies = viewModel.vacancies.collectAsState().value
     val scope = rememberCoroutineScope()
     val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
 
     LaunchedEffect(Unit) {
-        viewModel.initiateScreen(scope)
+        viewModel.initiateScreen(
+            scope,
+            onFavoriteCountChange = onFavoriteCountChange
+        )
     }
 
     OtherVacanciesRawScreen(
@@ -52,6 +57,7 @@ internal fun OtherVacanciesScreen(
         onBackButtonClicked = onBackButtonClicked,
         changeLikeState = { index, value ->
             viewModel.setIsFavorite(index, value)
+            onFavoriteCountChange(viewModel.favoritesCount)
         },
         respondVacancy = {}
     )

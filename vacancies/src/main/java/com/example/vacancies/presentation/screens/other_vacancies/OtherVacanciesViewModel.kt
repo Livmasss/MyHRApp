@@ -4,12 +4,9 @@ import androidx.lifecycle.ViewModel
 import com.example.core.fetchCatching
 import com.example.coreui.mappers.toDomain
 import com.example.coreui.models.VacancyModel
-import com.example.favorite.domain.useCases.GetFavoriteVacanciesUseCase
 import com.example.favorite.domain.useCases.UpdateFavoriteVacanciesUseCase
 import com.example.vacancies.domain.useCases.GetCachedVacanciesUseCase
-import com.example.vacancies.domain.useCases.GetVacanciesScreenUseCase
 import com.example.vacancies.presentation.mappers.toPresentation
-import com.example.vacancies.presentation.models.OtherVacanciesScreenModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +19,10 @@ internal class OtherVacanciesViewModel(
     private val _vacancies = MutableStateFlow<List<VacancyModel>?>(null)
     val vacancies = _vacancies.asStateFlow()
 
-    fun initiateScreen(scope: CoroutineScope) {
+    fun initiateScreen(
+        scope: CoroutineScope,
+        onFavoriteCountChange: (count: Int) -> Unit
+    ) {
         scope.fetchCatching(
             onConnectException = {}
         ) {
@@ -30,6 +30,8 @@ internal class OtherVacanciesViewModel(
                 _vacancies.value = value.map {
                     it.toPresentation()
                 }
+
+                onFavoriteCountChange(favoritesCount)
             }
         }
     }
@@ -61,4 +63,7 @@ internal class OtherVacanciesViewModel(
         }
         _vacancies.value = newVacancies
     }
+
+    val favoritesCount: Int
+        get() = _vacancies.value?.filter { it.isFavorite }?.size ?: 0
 }

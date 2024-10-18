@@ -42,13 +42,17 @@ internal fun MainScreen(
     viewModel: MainVacanciesViewModel = koinViewModel(),
     navigateToVacancyDetails: () -> Unit,
     navigateToOtherVacancies: () -> Unit,
+    onFavoriteCountChange: (count: Int) -> Unit,
 ) {
     val screenState by viewModel.mainVacanciesScreen.collectAsState()
     val scope = rememberCoroutineScope()
     val lifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(Unit) {
-        viewModel.initiateScreenData(scope)
+        viewModel.initiateScreenData(
+            scope,
+            onFavoriteCountChange = onFavoriteCountChange
+        )
     }
 
     MainRawScreen(
@@ -60,6 +64,7 @@ internal fun MainScreen(
         navigateToOtherVacancies = navigateToOtherVacancies,
         setVacancyLikedState = { index, value ->
             viewModel.setIsFavorite(index, value)
+            onFavoriteCountChange(viewModel.favoritesCount)
         },
         respondVacancy = {}
     )

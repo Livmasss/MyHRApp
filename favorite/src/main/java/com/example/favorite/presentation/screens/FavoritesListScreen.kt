@@ -28,21 +28,23 @@ import java.util.UUID
 
 @Composable
 internal fun FavoritesListScreen(
-    viewModel: FavoritesViewModel = koinInject()
+    viewModel: FavoritesViewModel = koinInject(),
+    onFavoriteCountChange: (count: Int) -> Unit
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(Unit) {
-        viewModel.initiateFavoriteList(this)
+        viewModel.initiateFavoriteList(
+            this,
+            onFavoriteCountChange = onFavoriteCountChange
+        )
     }
 
     FavoritesListRawScreen(
         vacancies = viewModel.favoriteList.collectAsState().value,
-        onLikedChange = { index, value ->
-            if (value)
-                viewModel.likeVacancy(index)
-            else
-                viewModel.unlikeVacancy(index)
+        onLikedChange = { index, _ ->
+            viewModel.unlikeVacancy(index)
+            onFavoriteCountChange(viewModel.favoriteList.value.size)
         },
         onRespondClicked = {}
     )
