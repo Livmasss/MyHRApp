@@ -3,9 +3,8 @@ package com.example.vacancies.data.repositories.impl
 import com.example.core.domain.models.Vacancy
 import com.example.favorite.domain.repositories.FavoriteVacanciesRepository
 import com.example.vacancies.data.local.VacanciesLocalDataSource
-import com.example.vacancies.data.remote.mappers.toDomain
 import com.example.vacancies.data.remote.dataSources.VacanciesRemoteDataSource
-import com.example.vacancies.data.remote.models.VacanciesScreenResponseModel
+import com.example.vacancies.data.remote.mappers.toDomain
 import com.example.vacancies.domain.models.VacanciesScreenData
 import com.example.vacancies.domain.repositories.VacanciesRepository
 import kotlinx.coroutines.flow.Flow

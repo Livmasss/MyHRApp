@@ -21,6 +21,9 @@ internal class MainVacanciesViewModel(
     private val _mainVacanciesScreen = MutableStateFlow<MainVacanciesScreenModel?>(null)
     val mainVacanciesScreen = _mainVacanciesScreen.asStateFlow()
 
+    private var _loading = MutableStateFlow(true)
+    val loading = _loading.asStateFlow()
+
     fun initiateScreenData(
         scope: CoroutineScope = viewModelScope,
         onFavoriteCountChange: (count: Int) -> Unit
@@ -28,7 +31,9 @@ internal class MainVacanciesViewModel(
         scope.fetchCatching(
             onConnectException = {}
         ) {
+            _loading.value = true
             getVacanciesScreenUseCase.execute().collectLatest {
+                _loading.value = false
                 _mainVacanciesScreen.value = it.toPresentation()
             }
             onFavoriteCountChange(favoritesCount)

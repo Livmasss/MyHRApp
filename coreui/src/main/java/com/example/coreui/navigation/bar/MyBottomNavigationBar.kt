@@ -188,7 +188,7 @@ private fun CountBubble(count: Int) {
 @Composable
 private fun MyBottomNavigationBarPreview() {
     val navController = rememberNavController()
-    var favoritesCount by remember {
+    val favoritesCount by remember {
         mutableIntStateOf(12)
     }
 

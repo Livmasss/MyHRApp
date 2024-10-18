@@ -59,7 +59,7 @@ internal fun MainScreen(
         recommendations = screenState?.recommendations,
         vacancies = screenState?.vacancies ?: listOf(),
         otherVacanciesNumber = screenState?.vacancies?.size ?: 0,
-        loading = screenState == null,
+        loading = viewModel.loading.collectAsState().value,
         navigateToVacancyDetails = navigateToVacancyDetails,
         navigateToOtherVacancies = navigateToOtherVacancies,
         setVacancyLikedState = { index, value ->
