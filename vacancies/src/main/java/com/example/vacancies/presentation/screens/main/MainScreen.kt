@@ -64,7 +64,7 @@ fun MainScreen(
         onVacancyClicked = onVacancyClicked,
         navigateToOtherVacancies = navigateToOtherVacancies,
         setVacancyLikedState = { index, value ->
-            viewModel.setIsFavorite(index, value)
+            viewModel.setIsVacancyFavorite(index, value)
             onFavoriteCountChange(viewModel.favoritesCount)
         },
         respondVacancy = {}

@@ -7,9 +7,9 @@ import com.example.core.domain.models.Vacancy
 import com.example.vacancies.data.remote.models.RecommendationResponseModel
 import com.example.vacancies.data.remote.models.VacanciesScreenResponseModel
 import com.example.vacancies.data.remote.models.VacancyResponseModel
-import com.example.vacancies.domain.models.VacanciesScreenData
+import com.example.vacancies.domain.models.MainVacanciesScreenData
 
-internal fun VacanciesScreenResponseModel.toDomain(): VacanciesScreenData = VacanciesScreenData (
+internal fun VacanciesScreenResponseModel.toDomain(): MainVacanciesScreenData = MainVacanciesScreenData (
     recommendations = recommendations?.map { it.toDomain() },
     vacancies = vacancies?.map { it.toDomain() } ?: listOf()
 )

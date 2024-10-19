@@ -5,16 +5,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.example.coreui.navigation.bar.BottomNavItem
+import com.example.coreui.navigation.bar.BottomNavDest
 import com.example.favorite.presentation.navigation.FavoriteDest
 import com.example.favorite.presentation.screens.FavoritesListScreen
 import com.example.hr_app.presentation.screens.MessagesScreen
 import com.example.hr_app.presentation.screens.ProfileScreen
 import com.example.hr_app.presentation.screens.RespondsScreen
-import com.example.vacancies.presentation.navigation.VacanciesNavItems
+import com.example.vacancies.presentation.navigation.VacanciesDest
 import com.example.vacancies.presentation.screens.details.VacancyDetailsScreen
 import com.example.vacancies.presentation.screens.main.MainScreen
-import com.example.vacancies.presentation.screens.other_vacancies.OtherVacanciesScreen
+import com.example.vacancies.presentation.screens.otherVacancies.OtherVacanciesScreen
 
 @Composable
 fun MainAppRouter(
@@ -23,48 +23,48 @@ fun MainAppRouter(
 ) {
     NavHost(
         navController = navController,
-        startDestination = BottomNavItem.Search
+        startDestination = BottomNavDest.Search
     ) {
-        navigation<BottomNavItem.Search>(
-            startDestination = VacanciesNavItems.Main
+        navigation<BottomNavDest.Search>(
+            startDestination = VacanciesDest.Main
         ) {
-            composable<VacanciesNavItems.Main> {
+            composable<VacanciesDest.Main> {
                 MainScreen(
-                    onVacancyClicked = { navController.navigate(VacanciesNavItems.Details) },
-                    navigateToOtherVacancies = { navController.navigate(VacanciesNavItems.Other) },
+                    onVacancyClicked = { navController.navigate(VacanciesDest.Details) },
+                    navigateToOtherVacancies = { navController.navigate(VacanciesDest.Other) },
                     onFavoriteCountChange = onFavoriteCountChange
                 )
             }
-            composable<VacanciesNavItems.Details> {
+            composable<VacanciesDest.Details> {
                 VacancyDetailsScreen()
             }
-            composable<VacanciesNavItems.Other> {
+            composable<VacanciesDest.Other> {
                 OtherVacanciesScreen(
-                    navigateToVacancyDetails = { navController.navigate(VacanciesNavItems.Details) },
+                    navigateToVacancyDetails = { navController.navigate(VacanciesDest.Details) },
                     onBackButtonClicked = { navController.popBackStack() },
                     onFavoriteCountChange = onFavoriteCountChange
                 )
             }
         }
 
-        navigation<BottomNavItem.Favorite>(
+        navigation<BottomNavDest.Favorite>(
             startDestination = FavoriteDest.FavoriteList
         ) {
             composable<FavoriteDest.FavoriteList> {
                 FavoritesListScreen(
                     onFavoriteCountChange = onFavoriteCountChange,
-                    onItemClicked = { navController.navigate(VacanciesNavItems.Details) },
+                    onItemClicked = { navController.navigate(VacanciesDest.Details) },
                 )
             }
         }
 
-        composable<BottomNavItem.Responds> {
+        composable<BottomNavDest.Responds> {
             RespondsScreen()
         }
-        composable<BottomNavItem.Messages> {
+        composable<BottomNavDest.Messages> {
             MessagesScreen()
         }
-        composable<BottomNavItem.Profile> {
+        composable<BottomNavDest.Profile> {
             ProfileScreen()
         }
     }

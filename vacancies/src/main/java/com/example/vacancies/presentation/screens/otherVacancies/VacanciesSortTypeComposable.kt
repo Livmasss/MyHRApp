@@ -1,4 +1,4 @@
-package com.example.vacancies.presentation.screens.other_vacancies
+package com.example.vacancies.presentation.screens.otherVacancies
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer

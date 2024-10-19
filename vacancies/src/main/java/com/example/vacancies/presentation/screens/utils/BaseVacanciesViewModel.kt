@@ -6,6 +6,7 @@ import com.example.core.fetchCatching
 import com.example.coreui.mappers.toDomain
 import com.example.coreui.models.VacancyModel
 import com.example.favorite.domain.useCases.UpdateFavoriteVacanciesUseCase
+import com.example.vacancies.presentation.models.BaseVacanciesScreenModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 
-abstract class BaseVacanciesViewModel<T>(
+abstract class BaseVacanciesViewModel<T: BaseVacanciesScreenModel>(
     private val updateFavoriteVacanciesUseCase: UpdateFavoriteVacanciesUseCase
 ): ViewModel() {
     protected val _screenData = MutableStateFlow<T?>(null)
@@ -48,35 +49,37 @@ abstract class BaseVacanciesViewModel<T>(
         }
     }
 
-    protected fun List<VacancyModel>.saveFavoriteVacancies(
+    fun saveFavoriteVacancies(
         scope: CoroutineScope = CoroutineScope(Dispatchers.IO)
     ) {
         scope.fetchCatching(
             onConnectException = {}
         ) {
-            val favoriteOnlyVacancies = mapNotNull { v ->
+            val favoriteOnlyVacancies = _screenData.value?.vacancies?.mapNotNull { v ->
                 if (v.isFavorite)
                     v
                 else
                     null
             }
-            favoriteOnlyVacancies.let { favorites ->
+            favoriteOnlyVacancies?.let { favorites ->
                 updateFavoriteVacanciesUseCase.execute(favorites.map { it.toDomain() })
             }
         }
     }
 
-    protected fun List<VacancyModel>.setIsFavorite(
+    protected fun setIsFavorite(
         vacancyIndex: Int,
         value: Boolean
-    ): List<VacancyModel> {
-        return List(size) { index ->
-            this[index].copy(
-                isFavorite = if (vacancyIndex == index)
-                    value
-                else
-                    this[index].isFavorite
-            )
+    ): List<VacancyModel>? {
+        return _screenData.value?.vacancies?.run {
+            List(size) { index ->
+                this[index].copy(
+                    isFavorite = if (vacancyIndex == index)
+                        value
+                    else
+                        this[index].isFavorite
+                )
+            }
         }
     }
 }

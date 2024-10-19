@@ -3,14 +3,20 @@ package com.example.vacancies.presentation.mappers
 import com.example.core.domain.models.Recommendation
 import com.example.core.domain.models.Vacancy
 import com.example.coreui.models.VacancyModel
-import com.example.vacancies.domain.models.VacanciesScreenData
+import com.example.vacancies.domain.models.MainVacanciesScreenData
+import com.example.vacancies.domain.models.OtherVacanciesScreenData
 import com.example.vacancies.presentation.models.MainVacanciesScreenModel
+import com.example.vacancies.presentation.models.OtherVacanciesScreenModel
 import com.example.vacancies.presentation.models.RecommendationModel
 import com.example.vacancies.presentation.utils.drawable.getRecommendationIconId
 import java.util.Calendar
 
-internal fun VacanciesScreenData.toPresentation() = MainVacanciesScreenModel (
+internal fun MainVacanciesScreenData.toPresentation() = MainVacanciesScreenModel (
     recommendations = recommendations?.map { it.toPresentation() },
+    vacancies = vacancies.map { it.toPresentation() },
+)
+
+internal fun OtherVacanciesScreenData.toPresentation() = OtherVacanciesScreenModel (
     vacancies = vacancies.map { it.toPresentation() },
 )
 

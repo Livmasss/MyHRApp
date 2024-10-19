@@ -1,4 +1,4 @@
-package com.example.vacancies.presentation.screens.other_vacancies
+package com.example.vacancies.presentation.screens.otherVacancies
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -39,7 +39,7 @@ fun OtherVacanciesScreen(
 ) {
     val viewModel: OtherVacanciesViewModel = koinViewModel()
 
-    val vacancies = viewModel.vacancies.collectAsState().value
+    val screen = viewModel.screenData.collectAsState().value
     val scope = rememberCoroutineScope()
     val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
 
@@ -51,13 +51,13 @@ fun OtherVacanciesScreen(
     }
 
     OtherVacanciesRawScreen(
-        vacancies = vacancies ?: listOf(),
-        loading = vacancies == null,
+        vacancies = screen?.vacancies ?: listOf(),
+        loading = viewModel.loading.collectAsState().value,
         searchQuery = "",
         onSearchQueryChange = {},
         onBackButtonClicked = onBackButtonClicked,
         onLikeStateChange = { index, value ->
-            viewModel.setIsFavorite(index, value)
+            viewModel.setIsVacancyFavorite(index, value)
             onFavoriteCountChange(viewModel.favoritesCount)
         },
         onRespondVacancy = {},

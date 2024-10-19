@@ -1,19 +1,16 @@
-package com.example.vacancies.presentation.screens.main
+package com.example.vacancies.presentation.screens.otherVacancies
 
 import com.example.favorite.domain.useCases.UpdateFavoriteVacanciesUseCase
-import com.example.vacancies.domain.useCases.GetVacanciesScreenUseCase
-import com.example.vacancies.presentation.mappers.toPresentation
-import com.example.vacancies.presentation.models.MainVacanciesScreenModel
+import com.example.vacancies.domain.useCases.GetOtherVacanciesUseCase
+import com.example.vacancies.presentation.models.OtherVacanciesScreenModel
 import com.example.vacancies.presentation.screens.utils.BaseVacanciesViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.map
 
-internal class MainVacanciesViewModel(
-    private val getVacanciesScreenUseCase: GetVacanciesScreenUseCase,
+internal class OtherVacanciesViewModel(
+    private val getOtherVacanciesUseCase: GetOtherVacanciesUseCase,
     updateFavoriteVacanciesUseCase: UpdateFavoriteVacanciesUseCase
-): BaseVacanciesViewModel<MainVacanciesScreenModel>(
-    updateFavoriteVacanciesUseCase
-) {
+): BaseVacanciesViewModel<OtherVacanciesScreenModel>(updateFavoriteVacanciesUseCase) {
+
     override val _favoritesCount: Int
         get() = _screenData.value?.vacancies?.filter { v ->
             v.isFavorite
@@ -24,9 +21,9 @@ internal class MainVacanciesViewModel(
         onFavoriteCountChange: (count: Int) -> Unit
     ) {
         initiateScreenData(
-            scope = scope,
-            onFavoriteCountChange = onFavoriteCountChange,
-            data = getVacanciesScreenUseCase.execute().map { it.toPresentation() }
+            scope,
+            onFavoriteCountChange,
+            getOtherVacanciesUseCase.execute()
         )
     }
 

@@ -4,5 +4,5 @@ import com.example.coreui.models.VacancyModel
 
 internal data class MainVacanciesScreenModel(
     val recommendations: List<RecommendationModel>?,
-    val vacancies: List<VacancyModel>
-)
+    override val vacancies: List<VacancyModel>
+): BaseVacanciesScreenModel

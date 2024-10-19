@@ -23,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -55,10 +54,10 @@ fun MyBottomNavigationBar(
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val currentDestination = navBackStackEntry?.destination
 
-            BottomNavItem.getObjectInstances().forEach { item ->
+            BottomNavDest.getObjectInstances().forEach { item ->
                 val selected = currentDestination?.hierarchy?.any { it.route == item.route } == true
 
-                if (item == BottomNavItem.Favorite && favoritesCount != null)
+                if (item == BottomNavDest.Favorite && favoritesCount != null)
                     BottomNavigationItemWithCount(
                         navController = navController,
                         item = item,
@@ -80,7 +79,7 @@ fun MyBottomNavigationBar(
 private fun RowScope.BottomNavigationItemWithCount(
     modifier: Modifier = Modifier,
     navController: NavController,
-    item: BottomNavItem,
+    item: BottomNavDest,
     selected: Boolean,
     count: Int,
 ) {
@@ -100,7 +99,7 @@ private fun RowScope.BottomNavigationItemWithCount(
 private fun RowScope.BottomNavigationItem(
     modifier: Modifier = Modifier,
     navController: NavController,
-    item: BottomNavItem,
+    item: BottomNavDest,
     selected: Boolean,
     bubble: @Composable () -> Unit = {}
 ) {
@@ -208,13 +207,13 @@ private fun MyBottomNavigationBarPreview() {
             Box(modifier = Modifier.padding(innerPadding)) {
                 NavHost(
                     navController = navController,
-                    startDestination = BottomNavItem.Search
+                    startDestination = BottomNavDest.Search
                 ) {
-                    composable<BottomNavItem.Search> {  }
-                    composable<BottomNavItem.Favorite> {  }
-                    composable<BottomNavItem.Responds> {  }
-                    composable<BottomNavItem.Messages> {  }
-                    composable<BottomNavItem.Responds> {  }
+                    composable<BottomNavDest.Search> {  }
+                    composable<BottomNavDest.Favorite> {  }
+                    composable<BottomNavDest.Responds> {  }
+                    composable<BottomNavDest.Messages> {  }
+                    composable<BottomNavDest.Responds> {  }
                 }
             }
         }
