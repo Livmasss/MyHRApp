@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.coreui.navigation.bar.BottomNavItem
-import com.example.favorite.presentation.navigation.FavoriteRouter
+import com.example.favorite.presentation.navigation.FavoriteDest
 import com.example.favorite.presentation.screens.FavoritesListScreen
 import com.example.hr_app.presentation.screens.MessagesScreen
 import com.example.hr_app.presentation.screens.ProfileScreen
@@ -46,18 +46,16 @@ fun MainAppRouter(
                 )
             }
         }
-        composable<BottomNavItem.Favorite> {
-            FavoriteRouter(
-                onFavoriteCountChange = onFavoriteCountChange,
-                navigateToVacancyDetails = { navController.navigate(VacanciesNavItems.Details) }
-            )
-        }
 
-        composable<BottomNavItem.Favorite> {
-            FavoritesListScreen(
-                onFavoriteCountChange = onFavoriteCountChange,
-                onItemClicked = { navController.navigate(VacanciesNavItems.Details) }
-            )
+        navigation<BottomNavItem.Favorite>(
+            startDestination = FavoriteDest.FavoriteList
+        ) {
+            composable<FavoriteDest.FavoriteList> {
+                FavoritesListScreen(
+                    onFavoriteCountChange = onFavoriteCountChange,
+                    onItemClicked = { navController.navigate(VacanciesNavItems.Details) },
+                )
+            }
         }
 
         composable<BottomNavItem.Responds> {

@@ -38,7 +38,7 @@ internal class VacanciesRepositoryImpl(
     }
 
     private suspend fun List<Vacancy>.synchronizeWithLocalFavorites(): List<Vacancy> {
-        val favoritesIds = favoriteRepository.getFavorites().map { it.id }
+        val favoritesIds = favoriteRepository.readFavorites().map { it.id }
 
         val synchronizedVacancies = map { vacancy ->
             vacancy.copy(

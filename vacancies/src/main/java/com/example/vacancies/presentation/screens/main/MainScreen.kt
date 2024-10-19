@@ -45,7 +45,7 @@ fun MainScreen(
 ) {
     val viewModel: MainVacanciesViewModel = koinViewModel()
 
-    val screenState by viewModel.mainVacanciesScreen.collectAsState()
+    val screenState by viewModel.screenData.collectAsState()
     val scope = rememberCoroutineScope()
     val lifecycleOwner = LocalLifecycleOwner.current
 

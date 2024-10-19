@@ -19,7 +19,10 @@ internal class OtherVacanciesViewModel(
     private val _vacancies = MutableStateFlow<List<VacancyModel>?>(null)
     val vacancies = _vacancies.asStateFlow()
 
-    fun initiateScreen(
+    val favoritesCount: Int
+        get() = _vacancies.value?.filter { it.isFavorite }?.size ?: 0
+
+    fun initiateScreenData(
         scope: CoroutineScope,
         onFavoriteCountChange: (count: Int) -> Unit
     ) {
@@ -63,7 +66,4 @@ internal class OtherVacanciesViewModel(
         }
         _vacancies.value = newVacancies
     }
-
-    val favoritesCount: Int
-        get() = _vacancies.value?.filter { it.isFavorite }?.size ?: 0
 }

@@ -22,11 +22,13 @@ internal class FavoritesViewModel(
     fun initiateFavoriteList(
         scope: CoroutineScope,
         onFavoriteCountChange: (count: Int) -> Unit
-    ) = scope.fetchCatching(
-        onConnectException = {}
     ) {
-        _favoriteList.value = getFavoriteVacanciesUseCase.execute().map { it.toModel() }
-        onFavoriteCountChange(favoriteList.value.size)
+        scope.fetchCatching(
+            onConnectException = {}
+        ) {
+            _favoriteList.value = getFavoriteVacanciesUseCase.execute().map { it.toModel() }
+            onFavoriteCountChange(favoriteList.value.size)
+        }
     }
 
     fun unlikeVacancy(index: Int) {

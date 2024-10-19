@@ -6,5 +6,5 @@ class GetFavoriteVacanciesUseCase(
     private val repository: FavoriteVacanciesRepository
 ) {
     suspend fun execute() =
-        repository.getFavorites()
+        repository.readFavorites()
 }

@@ -44,7 +44,7 @@ fun OtherVacanciesScreen(
     val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
 
     LaunchedEffect(Unit) {
-        viewModel.initiateScreen(
+        viewModel.initiateScreenData(
             scope,
             onFavoriteCountChange = onFavoriteCountChange
         )

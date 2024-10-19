@@ -11,7 +11,7 @@ internal class FavoriteVacanciesRepositoryImpl(
     private val localDataSource: FavoritesLocalDataSource,
     private val remoteDataSource: FavoritesRemoteDataSource,
 ): FavoriteVacanciesRepository {
-    override suspend fun getFavorites(): List<FavoriteVacancy> {
+    override suspend fun readFavorites(): List<FavoriteVacancy> {
         return localDataSource.getFavorites().map { it.toDomain() }
     }
 
