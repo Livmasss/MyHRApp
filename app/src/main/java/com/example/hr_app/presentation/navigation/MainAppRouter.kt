@@ -31,7 +31,11 @@ fun MainAppRouter(
             composable<VacanciesDest.Main> {
                 MainScreen(
                     onVacancyClicked = { navController.navigate(VacanciesDest.Details) },
-                    navigateToOtherVacancies = { navController.navigate(VacanciesDest.Other) },
+                    navigateToOtherVacancies = {
+                        navController.navigate(VacanciesDest.Other) {
+                            popUpTo(VacanciesDest.Other)
+                        }
+                                               },
                     onFavoriteCountChange = onFavoriteCountChange
                 )
             }
@@ -40,7 +44,11 @@ fun MainAppRouter(
             }
             composable<VacanciesDest.Other> {
                 OtherVacanciesScreen(
-                    navigateToVacancyDetails = { navController.navigate(VacanciesDest.Details) },
+                    navigateToVacancyDetails = {
+                        navController.navigate(VacanciesDest.Details) {
+                            popUpTo(VacanciesDest.Details)
+                        }
+                                               },
                     onBackButtonClicked = { navController.popBackStack() },
                     onFavoriteCountChange = onFavoriteCountChange
                 )

@@ -2,6 +2,7 @@ package com.example.core
 
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.ConnectException
 
@@ -9,7 +10,7 @@ private const val TAG = "CoroutinesUtil"
 fun CoroutineScope.fetchCatching(
     onConnectException: () -> Unit,
     block: suspend () -> Unit
-) = launch {
+) = launch(Dispatchers.IO) {
     try {
         block()
     }

@@ -1,5 +1,6 @@
 package com.example.favorite.presentation.screens
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.core.fetchCatching
 import com.example.coreui.mappers.toDomain
@@ -12,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
+private const val TAG = "FavoritesViewModel"
 internal class FavoritesViewModel(
     private val getFavoriteVacanciesUseCase: GetFavoriteVacanciesUseCase,
     private val updateFavoriteVacanciesUseCase: UpdateFavoriteVacanciesUseCase
@@ -23,6 +25,10 @@ internal class FavoritesViewModel(
         scope: CoroutineScope,
         onFavoriteCountChange: (count: Int) -> Unit
     ) {
+        if (_favoriteList.value.isNotEmpty())
+            return
+
+        Log.d(TAG, "initiateFavoriteList")
         scope.fetchCatching(
             onConnectException = {}
         ) {
@@ -32,6 +38,8 @@ internal class FavoritesViewModel(
     }
 
     fun unlikeVacancy(index: Int) {
+        Log.d(TAG, "unlikeVacancy called")
+
         if (index < favoriteList.value.size ) {
             val vacancy = favoriteList.value[index]
             _favoriteList.value -= vacancy
@@ -39,8 +47,9 @@ internal class FavoritesViewModel(
         }
     }
 
-
     fun saveFavoriteVacancies(scope: CoroutineScope = CoroutineScope(Dispatchers.IO)) {
+        Log.d(TAG, "saveFavoriteVacancies called")
+
         scope.fetchCatching(
             onConnectException = {}
         ) {

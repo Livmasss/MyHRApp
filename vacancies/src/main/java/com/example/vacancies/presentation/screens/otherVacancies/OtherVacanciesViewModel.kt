@@ -1,11 +1,13 @@
 package com.example.vacancies.presentation.screens.otherVacancies
 
+import android.util.Log
 import com.example.favorite.domain.useCases.UpdateFavoriteVacanciesUseCase
 import com.example.vacancies.domain.useCases.GetOtherVacanciesUseCase
 import com.example.vacancies.presentation.models.OtherVacanciesScreenModel
 import com.example.vacancies.presentation.screens.utils.BaseVacanciesViewModel
 import kotlinx.coroutines.CoroutineScope
 
+private const val TAG = "OtherVacanciesViewModel"
 internal class OtherVacanciesViewModel(
     private val getOtherVacanciesUseCase: GetOtherVacanciesUseCase,
     updateFavoriteVacanciesUseCase: UpdateFavoriteVacanciesUseCase
@@ -20,6 +22,7 @@ internal class OtherVacanciesViewModel(
         scope: CoroutineScope,
         onFavoriteCountChange: (count: Int) -> Unit
     ) {
+        Log.d(TAG, "Data initialization")
         initiateScreenData(
             scope,
             onFavoriteCountChange,
@@ -28,6 +31,8 @@ internal class OtherVacanciesViewModel(
     }
 
     fun setIsVacancyFavorite(vacancyIndex: Int, value: Boolean) {
+        Log.d(TAG, "setIsVacancyFavorite called")
+
         _screenData.value?.apply {
             val newVacancies = super.setIsFavorite(
                 vacancyIndex = vacancyIndex,

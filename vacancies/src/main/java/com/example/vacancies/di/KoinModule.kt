@@ -27,6 +27,6 @@ val vacanciesKoinModule = module {
     singleOf(::GetVacanciesScreenUseCase)
     singleOf(::GetOtherVacanciesUseCase)
 
-    viewModelOf(::MainVacanciesViewModel)
+    singleOf(::MainVacanciesViewModel)
     viewModelOf(::OtherVacanciesViewModel)
 }

@@ -1,5 +1,6 @@
 package com.example.vacancies.presentation.screens.main
 
+import android.util.Log
 import com.example.favorite.domain.useCases.UpdateFavoriteVacanciesUseCase
 import com.example.vacancies.domain.useCases.GetVacanciesScreenUseCase
 import com.example.vacancies.presentation.mappers.toPresentation
@@ -8,6 +9,7 @@ import com.example.vacancies.presentation.screens.utils.BaseVacanciesViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.map
 
+private const val TAG = "MainVacanciesViewModel"
 internal class MainVacanciesViewModel(
     private val getVacanciesScreenUseCase: GetVacanciesScreenUseCase,
     updateFavoriteVacanciesUseCase: UpdateFavoriteVacanciesUseCase
@@ -23,6 +25,7 @@ internal class MainVacanciesViewModel(
         scope: CoroutineScope,
         onFavoriteCountChange: (count: Int) -> Unit
     ) {
+        Log.d(TAG, "Data initialization")
         initiateScreenData(
             scope = scope,
             onFavoriteCountChange = onFavoriteCountChange,
@@ -31,6 +34,7 @@ internal class MainVacanciesViewModel(
     }
 
     fun setIsVacancyFavorite(vacancyIndex: Int, value: Boolean) {
+        Log.d(TAG, "setIsVacancyFavorite called")
         _screenData.value?.apply {
             val newVacancies = super.setIsFavorite(
                 vacancyIndex = vacancyIndex,
