@@ -5,6 +5,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.net.ConnectException
 
+private const val TAG = "CoroutinesUtil"
 fun CoroutineScope.fetchCatching(
     onConnectException: () -> Unit,
     block: suspend () -> Unit
@@ -14,9 +15,9 @@ fun CoroutineScope.fetchCatching(
     }
     catch (e: ConnectException) {
         onConnectException()
-        Log.e(TAG_CORE, e.stackTraceToString())
+        Log.e(TAG, e.stackTraceToString())
     }
     catch (e: Exception) {
-        Log.e(TAG_CORE, e.stackTraceToString())
+        Log.e(TAG, e.stackTraceToString())
     }
 }
