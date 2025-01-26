@@ -65,6 +65,7 @@ private fun FavoritesListRawScreen(
 ) {
     Column(
         modifier = Modifier.padding(horizontal = MaterialTheme.spacings.medium)
+            .padding(top = MaterialTheme.spacings.large)
     ) {
         HeadingTexts(vacanciesCount = vacancies.size)
         Spacer(modifier = Modifier.height(MaterialTheme.spacings.medium))
