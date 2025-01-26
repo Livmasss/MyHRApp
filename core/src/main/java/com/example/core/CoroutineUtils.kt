@@ -4,7 +4,7 @@ import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.net.ConnectException
+import java.io.IOException
 
 private const val TAG = "CoroutinesUtil"
 fun CoroutineScope.fetchCatching(
@@ -14,11 +14,12 @@ fun CoroutineScope.fetchCatching(
     try {
         block()
     }
-    catch (e: ConnectException) {
+    catch (e: IOException) {
         onConnectException()
         Log.e(TAG, e.stackTraceToString())
     }
     catch (e: Exception) {
+        onConnectException()
         Log.e(TAG, e.stackTraceToString())
     }
 }

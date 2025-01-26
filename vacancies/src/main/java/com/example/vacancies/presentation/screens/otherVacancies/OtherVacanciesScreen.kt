@@ -17,6 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -26,6 +27,7 @@ import com.example.coreui.models.VacancyModel
 import com.example.coreui.theme.MyHRAppTheme
 import com.example.coreui.theme.spacings
 import com.example.coreui.utils.OnStopDisposedEffect
+import com.example.coreui.utils.showConnectionFailedToast
 import com.example.vacancies.presentation.components.VacanciesWholeList
 import com.example.vacancies.presentation.screens.main.SearchOptionsRow
 import com.example.vacancies.presentation.utils.preview.vacanciesPreviewList
@@ -40,12 +42,16 @@ fun OtherVacanciesScreen(
     val viewModel: OtherVacanciesViewModel = koinViewModel()
 
     val screen = viewModel.screenData.collectAsState().value
+    val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
 
     LaunchedEffect(Unit) {
         viewModel.initiateScreenData(
             scope,
+            onConnectionFailed = {
+                showConnectionFailedToast(context)
+            },
             onFavoriteCountChange = onFavoriteCountChange
         )
     }

@@ -1,6 +1,7 @@
 package com.example.vacancies.presentation.screens.otherVacancies
 
 import android.util.Log
+import android.widget.Toast
 import com.example.favorite.domain.useCases.UpdateFavoriteVacanciesUseCase
 import com.example.vacancies.domain.useCases.GetOtherVacanciesUseCase
 import com.example.vacancies.presentation.models.OtherVacanciesScreenModel
@@ -20,13 +21,15 @@ internal class OtherVacanciesViewModel(
 
     override fun initiateScreenData(
         scope: CoroutineScope,
+        onConnectionFailed: () -> Unit,
         onFavoriteCountChange: (count: Int) -> Unit
     ) {
         Log.d(TAG, "Data initialization")
         initiateScreenData(
-            scope,
-            onFavoriteCountChange,
-            getOtherVacanciesUseCase.execute()
+            scope = scope,
+            onFavoriteCountChange = onFavoriteCountChange,
+            onConnectionFailed = onConnectionFailed,
+            data = getOtherVacanciesUseCase.execute()
         )
     }
 

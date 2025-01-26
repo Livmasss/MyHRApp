@@ -2,6 +2,7 @@ package com.example.favorite.presentation.screens
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.core.fetchCatching
 import com.example.coreui.mappers.toDomain
 import com.example.coreui.models.VacancyModel
@@ -22,7 +23,8 @@ internal class FavoritesViewModel(
     val favoriteList = _favoriteList.asStateFlow()
 
     fun initiateFavoriteList(
-        scope: CoroutineScope,
+        scope: CoroutineScope = viewModelScope,
+        onConnectionFailed: () -> Unit,
         onFavoriteCountChange: (count: Int) -> Unit
     ) {
         if (_favoriteList.value.isNotEmpty())
@@ -30,7 +32,7 @@ internal class FavoritesViewModel(
 
         Log.d(TAG, "initiateFavoriteList")
         scope.fetchCatching(
-            onConnectException = {}
+            onConnectException = onConnectionFailed
         ) {
             _favoriteList.value = getFavoriteVacanciesUseCase.execute().map { it.toModel() }
             onFavoriteCountChange(favoriteList.value.size)

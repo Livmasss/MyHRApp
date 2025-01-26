@@ -10,4 +10,5 @@
     <string name="label_respond">Откликнуться</string>
     <string name="text_publish_date">Опубликовано %s</string>
     <string name="label_back">Назад</string>
+    <string name="connection_faled">Соединение разорвано\n</string>
 </resources>

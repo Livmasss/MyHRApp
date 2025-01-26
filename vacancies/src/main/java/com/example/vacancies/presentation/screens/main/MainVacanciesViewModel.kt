@@ -23,11 +23,13 @@ internal class MainVacanciesViewModel(
 
     override fun initiateScreenData(
         scope: CoroutineScope,
+        onConnectionFailed: () -> Unit,
         onFavoriteCountChange: (count: Int) -> Unit
     ) {
         Log.d(TAG, "Data initialization")
         initiateScreenData(
             scope = scope,
+            onConnectionFailed = onConnectionFailed,
             onFavoriteCountChange = onFavoriteCountChange,
             data = getVacanciesScreenUseCase.execute().map { it.toPresentation() }
         )

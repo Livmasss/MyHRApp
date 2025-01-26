@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -21,6 +22,7 @@ import com.example.coreui.models.VacancyModel
 import com.example.coreui.theme.MyHRAppTheme
 import com.example.coreui.theme.spacings
 import com.example.coreui.utils.OnStopDisposedEffect
+import com.example.coreui.utils.showConnectionFailedToast
 import com.example.hr_app.presentation.theme.AppColors
 import org.koin.compose.koinInject
 import java.util.Calendar
@@ -33,11 +35,14 @@ fun FavoritesListScreen(
 ) {
     val viewModel: FavoritesViewModel = koinInject()
     val lifecycleOwner = LocalLifecycleOwner.current
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         viewModel.initiateFavoriteList(
-            this,
-            onFavoriteCountChange = onFavoriteCountChange
+            onFavoriteCountChange = onFavoriteCountChange,
+            onConnectionFailed = {
+                showConnectionFailedToast(context)
+            }
         )
     }
 

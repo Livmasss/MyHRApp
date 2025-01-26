@@ -29,16 +29,18 @@ abstract class BaseVacanciesViewModel<T: BaseVacanciesScreenModel>(
 
     abstract fun initiateScreenData(
         scope: CoroutineScope = viewModelScope,
+        onConnectionFailed: () -> Unit,
         onFavoriteCountChange: (count: Int) -> Unit
     )
 
     protected fun initiateScreenData(
         scope: CoroutineScope = viewModelScope,
         onFavoriteCountChange: (count: Int) -> Unit,
+        onConnectionFailed: () -> Unit,
         data: Flow<T>
     ) {
         scope.fetchCatching(
-            onConnectException = {}
+            onConnectException = onConnectionFailed
         ) {
             _loading.value = true
             data.collectLatest {
