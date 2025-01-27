@@ -28,7 +28,6 @@ internal class MainVacanciesViewModel(
     ) {
         Log.d(TAG, "Data initialization")
         initiateScreenData(
-            scope = scope,
             onConnectionFailed = onConnectionFailed,
             onFavoriteCountChange = onFavoriteCountChange,
             data = getVacanciesScreenUseCase.execute().map { it.toPresentation() }
